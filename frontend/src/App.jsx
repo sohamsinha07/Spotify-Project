@@ -10,7 +10,6 @@ import Settings from './routes/Settings'
 
 function App() {
 
-
   return (
     <>
       <Navbar />
@@ -20,7 +19,6 @@ function App() {
         <Route path="/inbox" element={<Inbox />} />
         <Route path="/userProfile" element={<UserProfile />} />
         <Route path="/settings" element={<Settings />} />
-
       </Routes>
     </>
   )

@@ -3,9 +3,10 @@ import '../styles/UserProfile.css';
 import { FaEnvelope, FaEdit, FaListUl, FaUserCircle } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import UserProfileFilterModal from '../components/UserProfileFilterModal';
+import { Link } from 'react-router-dom';
 
 const user = {
-  username: 'Raver123',
+  displayName: 'Raver123',
   bio: 'I like listening to edm!',
   likedSongs: ['Stay - Zedd', 'Levitating - Dua Lipa'],
   topArtists: ['Illenium', 'Kygo'],
@@ -36,18 +37,22 @@ const UserProfile = () => {
       {/* Main profile layout */}
       <div className="user-profile-container">
         <aside className="sidebar">
-          <FaEdit className="edit-icon" />
+          <Link to="/settings">
+            <FaEdit className="edit-icon" />
+          </Link>
           <FaUserCircle className="avatar" />
-          <h2 className="username">{user.username}</h2>
+          <h2 className="username">{user.displayName}</h2>
           <hr className="divider" />
           <p className="bio">{user.bio}</p>
-          <FaEnvelope className="email-icon" />
+          <Link to="/inbox">
+            <FaEnvelope className="email-icon" />
+          </Link>
         </aside>
 
         <main className="main-content">
           <div className="section">
             <div className="section-header">
-              <h3>{user.username}’s Liked Songs</h3>
+              <h3>{user.displayName}’s Liked Songs</h3>
               <div className="filter-row">
                 <p className="filter-label">Now Showing: {filters.liked}</p>
                 <button className="icon-button" onClick={() => setActiveModal('liked')}>
@@ -65,7 +70,7 @@ const UserProfile = () => {
 
           <div className="section">
             <div className="section-header">
-              <h3>{user.username}’s Top Artists</h3>
+              <h3>{user.displayName}’s Top Artists</h3>
               <div className="filter-row">
                 <p className="filter-label">Now Showing: {filters.artists}</p>
                 <button className="icon-button" onClick={() => setActiveModal('artists')}>
