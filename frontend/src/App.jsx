@@ -6,6 +6,7 @@ import Forum from './routes/Forum'
 import Inbox from './routes/Inbox'
 import UserProfile from './routes/UserProfile'
 import Settings from './routes/Settings'
+import ProfileEdit from './routes/ProfileEdit'
 import { useState, useEffect } from "react";
 
 
