@@ -6,7 +6,7 @@ const ProfileForm = () => {
       {/* First and Last Name in a row */}
       <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
         <div style={{ flex: 1 }}>
-          <label htmlFor="firstName" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+          <label htmlFor="firstName" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', textAlign: 'left' }}>
             First Name
           </label>
           <input
@@ -20,13 +20,14 @@ const ProfileForm = () => {
               fontSize: '16px',
               borderRadius: '4px',
               border: '1px solid #ccc',
+              backgroundColor: '#d9d9d9',
               boxSizing: 'border-box',
             }}
           />
         </div>
 
         <div style={{ flex: 1 }}>
-          <label htmlFor="lastName" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+          <label htmlFor="lastName" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', textAlign: 'left' }}>
             Last Name
           </label>
           <input
@@ -40,6 +41,7 @@ const ProfileForm = () => {
               fontSize: '16px',
               borderRadius: '4px',
               border: '1px solid #ccc',
+              backgroundColor: '#d9d9d9',
               boxSizing: 'border-box',
             }}
           />
@@ -48,7 +50,7 @@ const ProfileForm = () => {
 
       {/* Username */}
       <div style={{ marginBottom: '16px' }}>
-        <label htmlFor="username" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+        <label htmlFor="username" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', textAlign: 'left' }}>
           Username
         </label>
         <input
@@ -62,6 +64,7 @@ const ProfileForm = () => {
             fontSize: '16px',
             borderRadius: '4px',
             border: '1px solid #ccc',
+            backgroundColor: '#d9d9d9',
             boxSizing: 'border-box',
           }}
         />
@@ -69,7 +72,7 @@ const ProfileForm = () => {
 
       {/* Description */}
       <div style={{ marginBottom: '16px' }}>
-        <label htmlFor="description" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+        <label htmlFor="description" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', textAlign: 'left' }}>
           Description
         </label>
         <textarea
@@ -83,6 +86,7 @@ const ProfileForm = () => {
             fontSize: '16px',
             borderRadius: '4px',
             border: '1px solid #ccc',
+            backgroundColor: '#d9d9d9',
             boxSizing: 'border-box',
             resize: 'vertical',
           }}
@@ -91,7 +95,7 @@ const ProfileForm = () => {
 
       {/* Email */}
       <div style={{ marginBottom: '16px' }}>
-        <label htmlFor="email" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+        <label htmlFor="email" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', textAlign: 'left' }}>
           Email
         </label>
         <input
@@ -105,6 +109,7 @@ const ProfileForm = () => {
             fontSize: '16px',
             borderRadius: '4px',
             border: '1px solid #ccc',
+            backgroundColor: '#d9d9d9',
             boxSizing: 'border-box',
           }}
         />
@@ -112,7 +117,7 @@ const ProfileForm = () => {
 
       {/* Country */}
       <div style={{ marginBottom: '16px' }}>
-        <label htmlFor="country" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+        <label htmlFor="country" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', textAlign: 'left' }}>
           Country
         </label>
         <input
@@ -126,6 +131,7 @@ const ProfileForm = () => {
             fontSize: '16px',
             borderRadius: '4px',
             border: '1px solid #ccc',
+            backgroundColor: '#d9d9d9',
             boxSizing: 'border-box',
           }}
         />
