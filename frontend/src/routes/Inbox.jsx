@@ -17,18 +17,27 @@ import "../styles/Inbox.css";
 
 const users = ["User 1", "User 2", "User 3", "User 4", "User 5", "User 6"];
 
-const messages = [
-  { sender: "me", text: "Hello World!" },
-  { sender: "them", text: "Hello World!" },
-  { sender: "them", text: "..." }
-];
-
 export default function Inbox() {
-  const [selectedUser, setSelectedUser] = useState("User 4");
+  const [selectedUser, setSelectedUser] = useState("User 1");
+  const [messages, setMessages] = useState([
+    { sender: "me", text: "Hello World!" },
+    { sender: "them", text: "Hello World!" },
+    { sender: "them", text: "..." }
+  ]);
+  const [inputValue, setInputValue] = useState("");
+
+  const handleSend = () => {
+    if (inputValue.trim() === "") return;
+    setMessages([...messages, { sender: "me", text: inputValue }]);
+    setInputValue("");
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") handleSend();
+  };
 
   return (
     <div className="inbox-container">
-      {/* Leave space for the Navbar */}
       <div className="navbar-placeholder" />
 
       <div className="inbox-content">
@@ -59,6 +68,20 @@ export default function Inbox() {
                 {msg.text}
               </div>
             ))}
+          </div>
+
+          <div className="message-input-container">
+            <input
+              type="text"
+              placeholder="Type your message..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="message-input"
+            />
+            <button className="send-button" onClick={handleSend}>
+              Send
+            </button>
           </div>
         </div>
       </div>

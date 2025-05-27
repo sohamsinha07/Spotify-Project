@@ -105,3 +105,41 @@
   align-self: flex-end;
   color: black;
 }
+
+.message-input-container {
+  display: flex;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #333;
+}
+
+.message-input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  background-color: #2a2a2a;
+  color: white;
+}
+
+.message-input:focus {
+  outline: none;
+  background-color: #333;
+}
+
+.send-button {
+  margin-left: 10px;
+  padding: 10px 16px;
+  border: none;
+  background-color: #1db954;
+  color: black;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.send-button:hover {
+  background-color: #17a64a;
+}
