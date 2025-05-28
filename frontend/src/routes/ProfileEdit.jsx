@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useEffect, useState } from 'react';
 import ProfileForm from './ProfileForm';
 import {FaUserCircle } from 'react-icons/fa';
 import '../styles/ProfileEdit.css';

@@ -41,18 +41,6 @@ const ProfileForm = () => {
         />
       </div>
 
-      {/* Description */}
-      <div className="form-group">
-        <label htmlFor="description" className="label">Description</label>
-        <textarea
-          id="description"
-          name="description"
-          placeholder="Tell us about yourself"
-          rows="4"
-          className="textarea"
-        />
-      </div>
-
       {/* Email */}
       <div className="form-group">
         <label htmlFor="email" className="label">Email</label>
@@ -65,15 +53,15 @@ const ProfileForm = () => {
         />
       </div>
 
-      {/* Country */}
+      {/* Bio */}
       <div className="form-group">
-        <label htmlFor="country" className="label">Country</label>
-        <input
-          type="text"
-          id="country"
-          name="country"
-          placeholder="Enter country"
-          className="input"
+        <label htmlFor="bio" className="label">Bio</label>
+        <textarea
+          id="Bio"
+          name="bio"
+          placeholder="Tell us about yourself"
+          rows="4"
+          className="textarea"
         />
       </div>
     </form>
