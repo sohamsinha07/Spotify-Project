@@ -1,6 +1,6 @@
 import express from 'express';
 import admin from 'firebase-admin';
-import serviceAccount from './firebase-service-account.json' assert { type: 'json' };
+import serviceAccount from './serviceAccountKey.json' assert { type: 'json' };
 
 const router = express.Router();
 

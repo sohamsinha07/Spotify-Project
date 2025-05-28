@@ -13,6 +13,7 @@ app.use(cors());
 const loginRouter = require("./server/login");
 app.use("/login", loginRouter);
 
+// USER PROFILE INFORMATION
 app.get("/api/user/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
@@ -22,7 +23,9 @@ app.get("/api/user/:userId", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    res.json(userDoc.data());
+    const userData = userDoc.data();
+    console.log("Fetched user data:", userData);
+    res.json(userData);
   } catch (error) {
     console.error("Error fetching user:", error);
     res.status(500).json({ error: "Internal server error" });
