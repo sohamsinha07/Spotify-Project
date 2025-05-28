@@ -6,3 +6,5 @@ test-spotify-site.local-key.pem
 test-spotify-site.local.pem
 
 *.pem
+
+serviceAccountKey.json
