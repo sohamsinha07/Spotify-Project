@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/UserProfile.css';
-import { FaEnvelope, FaEdit, FaListUl, FaUserCircle } from 'react-icons/fa';
+import { FaEnvelope, FaEdit, FaListUl, FaUserCircle, FaMusic } from 'react-icons/fa';
 import UserProfileFilterModal from '../components/UserProfileFilterModal';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -103,7 +103,7 @@ const UserProfile = () => {
             {resolvedLikedSongs.length > 0 ? (
               resolvedLikedSongs.map((song) => (
                 <div key={song.id} className="list-item">
-                  <div className="list-avatar">{song.title?.charAt(0)}</div>
+                  <div className="list-avatar"><FaMusic /> </div>
                   <span>
                     {song.title} <span style={{ color: 'gray' }}>by: {song.artist}</span>
                   </span>
@@ -128,7 +128,7 @@ const UserProfile = () => {
             {resolvedTopArtists.length > 0 ? (
               resolvedTopArtists.map((artist) => (
                 <div key={artist.id} className="list-item"> 
-                  <div className="list-avatar">{artist.name?.charAt(0)}</div>
+                  <div className="list-avatar"><FaMusic /> </div>
                   <span>{artist.name}</span>
                 </div>
               ))
@@ -152,7 +152,7 @@ const UserProfile = () => {
             {resolvedTopSongs.length > 0 ? (
               resolvedTopSongs.map((song) => (
                 <div key={song.id} className="list-item">
-                  <div className="list-avatar">{song.title?.charAt(0)}</div>
+                  <div className="list-avatar"><FaMusic /> </div>
                   <span>
                     {song.title} <span style={{ color: 'gray' }}> by: {song.artist}</span>
                   </span>

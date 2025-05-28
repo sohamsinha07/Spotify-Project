@@ -112,7 +112,7 @@
   }
   
   .list-avatar {
-    background-color: var(--spotify-green);
+    background-color: rgb(80, 141, 80);
     border-radius: 50%;
     width: 2rem;
     height: 2rem;
