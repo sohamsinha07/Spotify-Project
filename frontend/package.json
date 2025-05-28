@@ -15,10 +15,7 @@
     "@mantine/notifications": "^8.0.2",
     "@tabler/icons-react": "^3.33.0",
     "axios": "^1.9.0",
-<<<<<<< HEAD
     "dayjs": "^1.11.13",
-=======
->>>>>>> origin/main
     "firebase": "^11.8.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

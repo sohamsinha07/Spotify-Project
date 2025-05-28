@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const https = require("https");
 const fs = require("fs");
+const { db } = require("./firebaseAdmin");
 
 
 const app = express();
