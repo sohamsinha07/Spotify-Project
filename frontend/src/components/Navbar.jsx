@@ -16,7 +16,7 @@ const Navbar = () => {
         <div className="navbar-right">
             <Link to="/forum"><FaClipboardList /></Link>
             <Link to="/inbox"><FaEnvelope /></Link>
-            <Link to="/userProfile"><FaUserCircle /></Link>
+            <Link to="/user"><FaUserCircle /></Link>
         </div>
       </nav>
     )

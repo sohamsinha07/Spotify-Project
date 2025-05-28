@@ -1,25 +1,59 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/UserProfile.css';
 import { FaEnvelope, FaEdit, FaListUl, FaUserCircle } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
 import UserProfileFilterModal from '../components/UserProfileFilterModal';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import axios from 'axios';
 
-const user = {
-  displayName: 'Raver123',
-  bio: 'I like listening to edm!',
-  likedSongs: ['Stay - Zedd', 'Levitating - Dua Lipa'],
-  topArtists: ['Illenium', 'Kygo'],
-  topSongs: ['Silence - Marshmello', 'Waiting For Love - Avicii']
+const fetchDocumentsByIds = async (collectionName, ids) => {
+  if (!ids || ids.length === 0) return [];
+
+  const q = query(collection(db, collectionName), where("__name__", "in", ids));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
 const UserProfile = () => {
+  const [userData, setUserData] = useState(null);
   const [activeModal, setActiveModal] = useState(null);
+  const { userId } = useParams();
+  
   const [filters, setFilters] = useState({
-    liked: 'All Time',
-    artists: 'All Time',
-    songs: 'All Time',
+    liked: "All",
+    artists: "All",
+    songs: "All"
   });
+
+  const [resolvedTopArtists, setResolvedTopArtists] = useState([]);
+  const [resolvedTopSongs, setResolvedTopSongs] = useState([]);
+  const [resolvedLikedSongs, setResolvedLikedSongs] = useState([]);
+
+  useEffect(() => {
+    if (!userId) {
+      console.log("No userId provided");
+      return;
+    }
+  
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(`https://test-spotify-site.local:5050/api/user/${userId}`);
+        const data = response.data;
+  
+        setUserData(data);
+        setResolvedTopArtists(data.topArtists || []);
+        setResolvedTopSongs(data.topSongs || []);
+        setResolvedLikedSongs(data.likedSongs || []);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setUserData(false);
+      }
+    };
+  
+    fetchUser();
+  }, [userId]);
+
+  if (userData === false) return <p>User not found.</p>;
+  if (!userData) return <p>Loading...</p>;
 
   return (
     <>
@@ -41,9 +75,9 @@ const UserProfile = () => {
             <FaEdit className="edit-icon" />
           </Link>
           <FaUserCircle className="avatar" />
-          <h2 className="username">{user.displayName}</h2>
+          <h2 className="username">{userData.displayName}</h2>
           <hr className="divider" />
-          <p className="bio">{user.bio}</p>
+          <p className="bio">{userData.bio}</p>
           <Link to="/inbox">
             <FaEnvelope className="email-icon" />
           </Link>
@@ -52,7 +86,7 @@ const UserProfile = () => {
         <main className="main-content">
           <div className="section">
             <div className="section-header">
-              <h3>{user.displayName}’s Liked Songs</h3>
+              <h3>{userData.displayName}’s Liked Songs</h3>
               <div className="filter-row">
                 <p className="filter-label">Now Showing: {filters.liked}</p>
                 <button className="icon-button" onClick={() => setActiveModal('liked')}>
@@ -60,17 +94,17 @@ const UserProfile = () => {
                 </button>
               </div>
             </div>
-            {user.likedSongs.map((song, index) => (
-              <div key={index} className="list-item">
-                <div className="list-avatar">{song.charAt(0)}</div>
-                <span>{song}</span>
+            {resolvedLikedSongs.map((song) => (
+              <div key={song.id} className="list-item">
+                <div className="list-avatar">{song.name?.charAt(0)}</div>
+                <span>{song.name}</span>
               </div>
             ))}
           </div>
 
           <div className="section">
             <div className="section-header">
-              <h3>{user.displayName}’s Top Artists</h3>
+              <h3>{userData.displayName}’s Top Artists</h3>
               <div className="filter-row">
                 <p className="filter-label">Now Showing: {filters.artists}</p>
                 <button className="icon-button" onClick={() => setActiveModal('artists')}>
@@ -78,17 +112,17 @@ const UserProfile = () => {
                 </button>
               </div>
             </div>
-            {user.topArtists.map((artist, index) => (
-              <div key={index} className="list-item">
-                <div className="list-avatar">{artist.charAt(0)}</div>
-                <span>{artist}</span>
+            {resolvedTopArtists.map((artist) => (
+              <div key={artist.id} className="list-item">
+                <div className="list-avatar">{artist.name?.charAt(0)}</div>
+                <span>{artist.name}</span>
               </div>
             ))}
           </div>
 
           <div className="section">
             <div className="section-header">
-              <h3>{user.username}’s Top Songs</h3>
+              <h3>{userData.displayName}’s Top Songs</h3>
               <div className="filter-row">
                 <p className="filter-label">Now Showing: {filters.songs}</p>
                 <button className="icon-button" onClick={() => setActiveModal('songs')}>
@@ -96,12 +130,12 @@ const UserProfile = () => {
                 </button>
               </div>
             </div>
-            {user.topSongs.map((song, index) => (
-              <div key={index} className="list-item">
-                <div className="list-avatar">{song.charAt(0)}</div>
-                <span>{song}</span>
-              </div>
-            ))}
+             {resolvedTopSongs.map((song) => (
+               <div key={song.id} className="list-item">
+                 <div className="list-avatar">{song.name?.charAt(0)}</div>
+                 <span>{song.name}</span>
+               </div>
+             ))}
           </div>
         </main>
       </div>

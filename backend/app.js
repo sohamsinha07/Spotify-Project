@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const https = require("https");
 const fs = require("fs");
+const { db } = require("./firebaseAdmin");
 
 const app = express();
 const port = 5050;
@@ -9,8 +10,24 @@ const port = 5050;
 app.use(express.json());
 app.use(cors());
 
-const loginRouter = require("./login");
+const loginRouter = require("./server/login");
 app.use("/login", loginRouter);
+
+app.get("/api/user/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const userDoc = await db.collection("users").doc(userId).get();
+
+    if (!userDoc.exists) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(userDoc.data());
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 // HTTPS configuration with mkcert
 const options = {
