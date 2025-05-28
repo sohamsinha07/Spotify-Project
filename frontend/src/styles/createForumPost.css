@@ -1,0 +1,28 @@
+.create-forum-container {
+    max-width: 500px;
+    margin: 2rem auto;
+}
+
+.create-forum-paper {
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+}
+
+.create-forum-title {
+    margin-bottom: 1rem;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+}
+
+.create-forum-input,
+.create-forum-textarea {
+    font-size: 16px;
+}
+
+.create-forum-button {
+    align-self: flex-end;
+    font-weight: bold;
+}
