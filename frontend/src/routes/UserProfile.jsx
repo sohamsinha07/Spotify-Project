@@ -1,78 +1,62 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/UserProfile.css';
-import { FaEnvelope, FaEdit, FaListUl, FaUserCircle } from 'react-icons/fa';
+import { FaEnvelope, FaEdit, FaListUl, FaUserCircle, FaMusic } from 'react-icons/fa';
 import UserProfileFilterModal from '../components/UserProfileFilterModal';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import { db } from "../firebase";
-import { getDocs, collection, query, where } from "firebase/firestore";
-
-const fetchDocumentsByIds = async (collectionName, items) => {
-  if (!items || items.length === 0) return [];
-
-  const ids = items.map(item => typeof item === "string" ? item : item.id);
-
-  const q = query(collection(db, collectionName), where("__name__", "in", ids));
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-};
-
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
-  const [activeModal, setActiveModal] = useState(null);
-  const { userId } = useParams();
-  
-  const [filters, setFilters] = useState({
-    liked: "All",
-    artists: "All",
-    songs: "All"
-  });
-
   const [resolvedTopArtists, setResolvedTopArtists] = useState([]);
   const [resolvedTopSongs, setResolvedTopSongs] = useState([]);
   const [resolvedLikedSongs, setResolvedLikedSongs] = useState([]);
+  const { userId } = useParams();
+  
+  const [filters, setFilters] = useState({
+    liked: "All Time", 
+    artists: "All Time", 
+    songs: "All Time"
+  });
+
+  const [activeModal, setActiveModal] = useState(null);
 
   useEffect(() => {
+    if (!userId) {
+      console.log("No userId provided");
+      return;
+    }
+
     const fetchUser = async () => {
       try {
         const res = await axios.get(`https://test-spotify-site.local:5050/api/user/${userId}`);
         const data = res.data;
+        
         setUserData(data);
-  
-        const [liked, artists, songs] = await Promise.all([
-          fetchDocumentsByIds("songs", data.likedSongs),
-          fetchDocumentsByIds("artists", data.topArtists),
-          fetchDocumentsByIds("songs", data.topSongs),
-        ]);
-  
-        setResolvedLikedSongs(liked);
-        setResolvedTopArtists(artists);
-        setResolvedTopSongs(songs);
-      } catch (err) {
-        console.error("Error fetching user data:", err);
+        setResolvedTopArtists(data.topArtists || []);
+        setResolvedTopSongs(data.topSongs || []);
+        setResolvedLikedSongs(data.likedSongs || []);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
         setUserData(false);
       }
     };
-  
+
     fetchUser();
   }, [userId]);
 
   if (userData === false) return <p>User not found.</p>;
   if (!userData) return <p>Loading...</p>;
 
-  console.log("Resolved liked songs:", resolvedLikedSongs);
-
   return (
     <>
       {/* Modal and trigger */}
       {activeModal && (
         <UserProfileFilterModal
-          activeFilter={filters[activeModal]}
+          activeFilter={filters[activeModal]}  
           setActiveFilter={(newValue) => {
             setFilters((prev) => ({ ...prev, [activeModal]: newValue }));
           }}
-          onClose={() => setActiveModal(null)}
+          onClose={() => setActiveModal(null)}  
         />
       )}
 
@@ -82,8 +66,21 @@ const UserProfile = () => {
           <Link to="/profileEdit">
             <FaEdit className="edit-icon" />
           </Link>
-          <img src={userData.profileImage} alt="Profile" className="avatar-img" />
-          <h2 className="username">{userData.displayName}</h2>
+
+          {/* Display Profile Picture */}
+          <div className="avatar-container">
+            {userData.profilePictureUrl ? (
+              <img 
+                src={userData.profilePictureUrl} 
+                alt="Profile Picture" 
+                className="avatar-img"
+              />
+            ) : (
+              <FaUserCircle className="avatar" />
+            )}
+          </div>
+
+          <h2 className="username">{userData.username}</h2>
           <hr className="divider" />
           <p className="bio">{userData.bio}</p>
           <Link to="/inbox">
@@ -92,9 +89,10 @@ const UserProfile = () => {
         </aside>
 
         <main className="main-content">
+          {/* Display liked songs */}
           <div className="section">
             <div className="section-header">
-              <h3>{userData.displayName}’s Liked Songs</h3>
+              <h3>{userData.username}'s Liked Songs</h3>
               <div className="filter-row">
                 <p className="filter-label">Now Showing: {filters.liked}</p>
                 <button className="icon-button" onClick={() => setActiveModal('liked')}>
@@ -102,17 +100,24 @@ const UserProfile = () => {
                 </button>
               </div>
             </div>
-            {resolvedLikedSongs.map((song) => (
-              <div key={`liked-${song.id}`} className="list-item">
-                <div className="list-avatar">{song.name?.charAt(0)}</div>
-                <span>{song.name}</span>
-              </div>
-            ))}
+            {resolvedLikedSongs.length > 0 ? (
+              resolvedLikedSongs.map((song) => (
+                <div key={song.id} className="list-item">
+                  <div className="list-avatar"><FaMusic /> </div>
+                  <span>
+                    {song.title} <span style={{ color: 'gray' }}>by: {song.artist}</span>
+                  </span>
+                </div>
+              ))
+            ) : (
+              <p>No liked songs available.</p>
+            )}
           </div>
 
+          {/* Display top artists */}
           <div className="section">
             <div className="section-header">
-              <h3>{userData.displayName}’s Top Artists</h3>
+              <h3>{userData.username}'s Top Artists</h3>
               <div className="filter-row">
                 <p className="filter-label">Now Showing: {filters.artists}</p>
                 <button className="icon-button" onClick={() => setActiveModal('artists')}>
@@ -120,17 +125,22 @@ const UserProfile = () => {
                 </button>
               </div>
             </div>
-            {resolvedTopArtists.map((artist) => (
-              <div key={artist.id} className="list-item">
-                <div className="list-avatar">{artist.name?.charAt(0)}</div>
-                <span>{artist.name}</span>
-              </div>
-            ))}
+            {resolvedTopArtists.length > 0 ? (
+              resolvedTopArtists.map((artist) => (
+                <div key={artist.id} className="list-item"> 
+                  <div className="list-avatar"><FaMusic /> </div>
+                  <span>{artist.name}</span>
+                </div>
+              ))
+            ) : (
+              <p>No top artists available.</p>
+            )}
           </div>
 
+          {/* Display top songs */}
           <div className="section">
             <div className="section-header">
-              <h3>{userData.displayName}’s Top Songs</h3>
+              <h3>{userData.username}'s Top Songs</h3>
               <div className="filter-row">
                 <p className="filter-label">Now Showing: {filters.songs}</p>
                 <button className="icon-button" onClick={() => setActiveModal('songs')}>
@@ -138,12 +148,19 @@ const UserProfile = () => {
                 </button>
               </div>
             </div>
-            {resolvedTopSongs.map((song) => (
-              <div key={song.id} className="list-item">
-                <div className="list-avatar">{song.name?.charAt(0)}</div>
-                <span>{song.name}</span>
-              </div>
-            ))}
+
+            {resolvedTopSongs.length > 0 ? (
+              resolvedTopSongs.map((song) => (
+                <div key={song.id} className="list-item">
+                  <div className="list-avatar"><FaMusic /> </div>
+                  <span>
+                    {song.title} <span style={{ color: 'gray' }}> by: {song.artist}</span>
+                  </span>
+                </div>
+              ))
+            ) : (
+              <p>No top songs available.</p>
+            )}
           </div>
         </main>
       </div>
