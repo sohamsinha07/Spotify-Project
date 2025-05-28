@@ -1,0 +1,60 @@
+/* src/components/ForumInfo.css */
+
+.forumCard {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    max-width: 600px;
+}
+
+.forum-title {
+    font-size: 1.25rem;
+    margin: 10px 0 5px;
+    font-weight: 700;
+    color: #222;
+}
+
+
+.forumInfo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.forum-timestamp {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.forum-username {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+
+.forum-user {
+    display: flex;
+    align-items: center;
+}
+
+.forum-user-details {
+    margin-left: 12px;
+}
+
+
+
+.forum-snippet {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.forum-actions {
+    display: flex;
+    gap: 10px;
+}

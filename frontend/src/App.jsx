@@ -8,6 +8,9 @@ import UserProfile from './routes/UserProfile'
 import ProfileEdit from './routes/ProfileEdit'
 import Login from './routes/Login'
 import { useState, useEffect } from "react";
+import CreateForumPost from './components/CreateForumPost'
+import '@mantine/core/styles.css';
+
 
 
 function App() {
@@ -47,9 +50,41 @@ function App() {
         <Route path="/user" element={<UserProfile />} />
         <Route path="/profileEdit" element={<ProfileEdit />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/createforumPost" element={<CreateForumPost />} />
 
         <Route path="/user/:userId" element={<UserProfile />} />
       </Routes>
+
+      <p>Spotify Login Demo</p>
+      {accessToken ? (
+        <div>
+          <p>You are signed in</p>
+          <ul>
+            <li>Authentication Token: {`${accessToken}`}</li>
+            <li>Refresh Token: {`${refreshToken}`}</li>
+            <li>Seconds to Expiration: {`${expiresIn}`}</li>
+          </ul>
+          <div
+            onClick={handleSignOut}
+            style={{
+              color: "white",
+              background: "black",
+              width: "80px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "12px",
+              padding: "4px 6px",
+            }}
+          >
+            Sign Out
+          </div>
+        </div>
+      ) : (
+        <a href="https://test-spotify-site.local:5050/login">
+          Login with Spotify
+        </a>
+      )}
     </>
   )
 }
