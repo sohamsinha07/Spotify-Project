@@ -7,7 +7,7 @@
     overflow: hidden;
   }
   
-  .sidebar {
+  .profileSidebar {
     width: 30%;
     background-color: var(--secondary-background);
     display: flex;
