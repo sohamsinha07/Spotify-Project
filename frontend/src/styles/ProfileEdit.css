@@ -1,0 +1,39 @@
+.page-title {
+  padding: 16px 0;
+  font-size: 3rem;
+  margin-bottom: 24px;
+}
+
+.body-section{
+  margin-left: 48px;
+}
+
+.profile-edit-container {
+  display: flex;
+  align-items: stretch;
+}
+
+.avatar-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar {
+    font-size: 16rem;
+    color: var(--spotify-green);
+    margin-bottom: 1rem;
+    margin-top: 24px;
+  }
+
+.change-avatar {
+  margin-top: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+.form-section {
+    flex: 2;
+}

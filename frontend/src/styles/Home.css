@@ -1,0 +1,30 @@
+.home-container {
+  padding: 1rem;
+}
+
+.horizontal-scroll {
+  display: flex;
+  overflow-x: auto;
+  padding: 1rem 0;
+}
+
+.gray-square {
+  min-width: 200px;
+  height: 200px;
+  background-color: #121212;
+  margin-right: 10px;
+  flex-shrink: 0;
+  border-radius: 5px;
+}
+
+.vertical-rectangle {
+  width: 100%;
+  height: 150px;
+  background-color: #121212;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  display: none;
+}
