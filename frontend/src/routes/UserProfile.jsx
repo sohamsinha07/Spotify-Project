@@ -5,8 +5,13 @@ import UserProfileFilterModal from '../components/UserProfileFilterModal';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-const fetchDocumentsByIds = async (collectionName, ids) => {
-  if (!ids || ids.length === 0) return [];
+import { db } from "../firebase";
+import { getDocs, collection, query, where } from "firebase/firestore";
+
+const fetchDocumentsByIds = async (collectionName, items) => {
+  if (!items || items.length === 0) return [];
+
+  const ids = items.map(item => typeof item === "string" ? item : item.id);
 
   const q = query(collection(db, collectionName), where("__name__", "in", ids));
   const snapshot = await getDocs(q);
@@ -29,22 +34,23 @@ const UserProfile = () => {
   const [resolvedLikedSongs, setResolvedLikedSongs] = useState([]);
 
   useEffect(() => {
-    if (!userId) {
-      console.log("No userId provided");
-      return;
-    }
-  
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`https://test-spotify-site.local:5050/api/user/${userId}`);
-        const data = response.data;
-  
+        const res = await axios.get(`https://test-spotify-site.local:5050/api/user/${userId}`);
+        const data = res.data;
         setUserData(data);
-        setResolvedTopArtists(data.topArtists || []);
-        setResolvedTopSongs(data.topSongs || []);
-        setResolvedLikedSongs(data.likedSongs || []);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+  
+        const [liked, artists, songs] = await Promise.all([
+          fetchDocumentsByIds("songs", data.likedSongs),
+          fetchDocumentsByIds("artists", data.topArtists),
+          fetchDocumentsByIds("songs", data.topSongs),
+        ]);
+  
+        setResolvedLikedSongs(liked);
+        setResolvedTopArtists(artists);
+        setResolvedTopSongs(songs);
+      } catch (err) {
+        console.error("Error fetching user data:", err);
         setUserData(false);
       }
     };
@@ -54,6 +60,8 @@ const UserProfile = () => {
 
   if (userData === false) return <p>User not found.</p>;
   if (!userData) return <p>Loading...</p>;
+
+  console.log("Resolved liked songs:", resolvedLikedSongs);
 
   return (
     <>
@@ -74,7 +82,7 @@ const UserProfile = () => {
           <Link to="/profileEdit">
             <FaEdit className="edit-icon" />
           </Link>
-          <FaUserCircle className="avatar" />
+          <img src={userData.profileImage} alt="Profile" className="avatar-img" />
           <h2 className="username">{userData.displayName}</h2>
           <hr className="divider" />
           <p className="bio">{userData.bio}</p>
@@ -95,7 +103,7 @@ const UserProfile = () => {
               </div>
             </div>
             {resolvedLikedSongs.map((song) => (
-              <div key={song.id} className="list-item">
+              <div key={`liked-${song.id}`} className="list-item">
                 <div className="list-avatar">{song.name?.charAt(0)}</div>
                 <span>{song.name}</span>
               </div>
@@ -130,12 +138,12 @@ const UserProfile = () => {
                 </button>
               </div>
             </div>
-             {resolvedTopSongs.map((song) => (
-               <div key={song.id} className="list-item">
-                 <div className="list-avatar">{song.name?.charAt(0)}</div>
-                 <span>{song.name}</span>
-               </div>
-             ))}
+            {resolvedTopSongs.map((song) => (
+              <div key={song.id} className="list-item">
+                <div className="list-avatar">{song.name?.charAt(0)}</div>
+                <span>{song.name}</span>
+              </div>
+            ))}
           </div>
         </main>
       </div>

@@ -4,6 +4,8 @@ const https = require("https");
 const fs = require("fs");
 const { db } = require("./firebaseAdmin");
 
+const userRoute = require("./server/userRoute");
+const loginRouter = require("./server/login");
 
 const app = express();
 const port = 5050;
@@ -11,33 +13,14 @@ const port = 5050;
 app.use(express.json());
 app.use(cors());
 
-const loginRouter = require("./server/login");
 app.use("/login", loginRouter);
+app.use("/api/user", userRoute);
 
-app.get("/api/user/:userId", async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const userDoc = await db.collection("users").doc(userId).get();
-
-    if (!userDoc.exists) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    res.json(userDoc.data());
-  } catch (error) {
-    console.error("Error fetching user:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// HTTPS configuration with mkcert
 const options = {
   key: fs.readFileSync("test-spotify-site.local-key.pem"),
   cert: fs.readFileSync("test-spotify-site.local.pem"),
 };
 
 https.createServer(options, app).listen(port, () => {
-  console.log(
-    `HTTPS Server is running on https://test-spotify-site.local:${port}`
-  );
+  console.log(`HTTPS Server is running on https://test-spotify-site.local:${port}`);
 });
