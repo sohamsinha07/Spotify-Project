@@ -1,139 +1,79 @@
 import React from 'react';
+import '../styles/ProfileForm.css';
 
 const ProfileForm = () => {
   return (
-    <form style={{ maxWidth: '600px', margin: '0 auto', padding: '24px' }}>
-      {/* First and Last Name in a row */}
-      <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
-        <div style={{ flex: 1 }}>
-          <label htmlFor="firstName" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', textAlign: 'left' }}>
-            First Name
-          </label>
+    <form className="form-container">
+      {/* First and Last Name */}
+      <div className="row">
+        <div className="field">
+          <label htmlFor="firstName" className="label">First Name</label>
           <input
             type="text"
             id="firstName"
             name="firstName"
             placeholder="Enter your first name"
-            style={{
-              width: '100%',
-              padding: '8px 12px',
-              fontSize: '16px',
-              borderRadius: '4px',
-              border: '1px solid #ccc',
-              backgroundColor: '#d9d9d9',
-              boxSizing: 'border-box',
-            }}
+            className="input"
           />
         </div>
 
-        <div style={{ flex: 1 }}>
-          <label htmlFor="lastName" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', textAlign: 'left' }}>
-            Last Name
-          </label>
+        <div className="field">
+          <label htmlFor="lastName" className="label">Last Name</label>
           <input
             type="text"
             id="lastName"
             name="lastName"
             placeholder="Enter your last name"
-            style={{
-              width: '100%',
-              padding: '8px 12px',
-              fontSize: '16px',
-              borderRadius: '4px',
-              border: '1px solid #ccc',
-              backgroundColor: '#d9d9d9',
-              boxSizing: 'border-box',
-            }}
+            className="input"
           />
         </div>
       </div>
 
       {/* Username */}
-      <div style={{ marginBottom: '16px' }}>
-        <label htmlFor="username" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', textAlign: 'left' }}>
-          Username
-        </label>
+      <div className="form-group">
+        <label htmlFor="username" className="label">Username</label>
         <input
           type="text"
           id="username"
           name="username"
           placeholder="Enter username"
-          style={{
-            width: '100%',
-            padding: '8px 12px',
-            fontSize: '16px',
-            borderRadius: '4px',
-            border: '1px solid #ccc',
-            backgroundColor: '#d9d9d9',
-            boxSizing: 'border-box',
-          }}
+          className="input"
         />
       </div>
 
       {/* Description */}
-      <div style={{ marginBottom: '16px' }}>
-        <label htmlFor="description" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', textAlign: 'left' }}>
-          Description
-        </label>
+      <div className="form-group">
+        <label htmlFor="description" className="label">Description</label>
         <textarea
           id="description"
           name="description"
           placeholder="Tell us about yourself"
           rows="4"
-          style={{
-            width: '100%',
-            padding: '8px 12px',
-            fontSize: '16px',
-            borderRadius: '4px',
-            border: '1px solid #ccc',
-            backgroundColor: '#d9d9d9',
-            boxSizing: 'border-box',
-            resize: 'vertical',
-          }}
+          className="textarea"
         />
       </div>
 
       {/* Email */}
-      <div style={{ marginBottom: '16px' }}>
-        <label htmlFor="email" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', textAlign: 'left' }}>
-          Email
-        </label>
+      <div className="form-group">
+        <label htmlFor="email" className="label">Email</label>
         <input
           type="email"
           id="email"
           name="email"
           placeholder="you@example.com"
-          style={{
-            width: '100%',
-            padding: '8px 12px',
-            fontSize: '16px',
-            borderRadius: '4px',
-            border: '1px solid #ccc',
-            backgroundColor: '#d9d9d9',
-            boxSizing: 'border-box',
-          }}
+          className="input"
         />
       </div>
 
       {/* Country */}
-      <div style={{ marginBottom: '16px' }}>
-        <label htmlFor="country" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', textAlign: 'left' }}>
-          Country
-        </label>
+      <div className="form-group">
+        <label htmlFor="country" className="label">Country</label>
         <input
           type="text"
           id="country"
           name="country"
           placeholder="Enter country"
-          style={{
-            width: '100%',
-            padding: '8px 12px',
-            fontSize: '16px',
-            borderRadius: '4px',
-            border: '1px solid #ccc',
-            backgroundColor: '#d9d9d9',
-            boxSizing: 'border-box',
-          }}
+          className="input"
         />
       </div>
     </form>

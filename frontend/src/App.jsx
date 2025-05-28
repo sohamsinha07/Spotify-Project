@@ -5,7 +5,6 @@ import Home from './routes/Home'
 import Forum from './routes/Forum'
 import Inbox from './routes/Inbox'
 import UserProfile from './routes/UserProfile'
-import Settings from './routes/Settings'
 import ProfileEdit from './routes/ProfileEdit'
 import { useState, useEffect } from "react";
 
@@ -47,7 +46,6 @@ function App() {
         <Route path="/inbox" element={<Inbox />} />
         <Route path="/userProfile" element={<UserProfile />} />
         <Route path="/profileEdit" element={<ProfileEdit />} />
-        <Route path="/settings" element={<Settings />} />
 
       </Routes>
 
