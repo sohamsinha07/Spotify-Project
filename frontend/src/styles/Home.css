@@ -5,17 +5,35 @@
 .horizontal-scroll {
   display: flex;
   overflow-x: auto;
-  padding: 1rem 0;
+  padding: 1rem;
 }
 
-.gray-square {
-  min-width: 200px;
-  height: 200px;
+.user-square {
+  width: 175px;
+  height: 175px;
   background-color: #121212;
-  margin-right: 10px;
-  flex-shrink: 0;
-  border-radius: 5px;
+  border-radius: 8px;
+  margin-right: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+
+.profile-picture {
+  width: 115px;
+  height: 115px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+}
+
+.user-square p {
+  margin: 0;
+  font-weight: bold;
+}
+
 
 .vertical-rectangle {
   width: 100%;

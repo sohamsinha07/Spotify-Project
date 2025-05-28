@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import MinimalNavbar from './components/MinimalNavbar'
 import Home from './routes/Home'
 import Forum from './routes/Forum'
 import Inbox from './routes/Inbox'
@@ -37,17 +38,19 @@ function App() {
     setRefreshToken(null);
     setExpiresIn(null);
   }
+
+  const isLoginPage = location.pathname === '/';
+
   return (
     <>
-      <Navbar />
+      {isLoginPage ? <MinimalNavbar /> : <Navbar />}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/forum" element={<Forum />} />
         <Route path="/inbox" element={<Inbox />} />
         <Route path="/user" element={<UserProfile />} />
         <Route path="/profileEdit" element={<ProfileEdit />} />
-        <Route path="/login" element={<Login />} />
-
         <Route path="/user/:userId" element={<UserProfile />} />
       </Routes>
     </>
