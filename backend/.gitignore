@@ -2,6 +2,8 @@ permissions.json
 node_modules
 backend/.env
 
+serviceAccountKey.json
+
 test-spotify-site.local-key.pem
 test-spotify-site.local.pem
 

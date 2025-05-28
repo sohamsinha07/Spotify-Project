@@ -2,6 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const https = require("https");
 const fs = require("fs");
+var admin = require("firebase-admin");
+
+const serviceAccount = require('./permissions.json');
 
 const app = express();
 const port = 5050;

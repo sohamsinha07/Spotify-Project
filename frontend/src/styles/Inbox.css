@@ -143,3 +143,53 @@
 .send-button:hover {
   background-color: #17a64a;
 }
+
+.add-user-btn {
+  background-color: #1db954;
+  color: black;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.add-user-btn:hover {
+  background-color: #17a64a;
+}
+
+.modal {
+  background: #1b1b1b;
+  color: white;
+  padding: 20px;
+  width: 300px;
+  margin: auto;
+  border-radius: 8px;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.modal input {
+  width: 100%;
+  padding: 10px;
+  margin: 15px 0;
+  border: none;
+  border-radius: 5px;
+  background: #2a2a2a;
+  color: white;
+}
+
+.modal button {
+  background: #1db954;
+  color: black;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
