@@ -36,7 +36,7 @@ const UserProfile = () => {
 
       {/* Main profile layout */}
       <div className="user-profile-container">
-        <aside className="sidebar">
+        <aside className="profileSidebar">
           <Link to="/profileEdit">
             <FaEdit className="edit-icon" />
           </Link>
