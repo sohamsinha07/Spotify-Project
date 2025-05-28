@@ -9,10 +9,11 @@ import UserProfile from './routes/UserProfile'
 import ProfileEdit from './routes/ProfileEdit'
 import Login from './routes/Login'
 import { useState, useEffect } from "react";
+import { useLocation } from 'react-router-dom';
 
 
 function App() {
-
+  const location = useLocation();
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
   const [expiresIn, setExpiresIn] = useState(null);

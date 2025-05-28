@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import "../styles/Login.css"; // for the background styling
+import { useNavigate } from "react-router-dom";
+import "../styles/Login.css";
 
 function Login() {
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
   const [expiresIn, setExpiresIn] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -16,16 +18,21 @@ function Login() {
       setAccessToken(auth);
       setRefreshToken(refresh);
       setExpiresIn(expires);
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  }, []);
 
-  function handleSignOut() {
-    setAccessToken(null);
-    setRefreshToken(null);
-    setExpiresIn(null);
-    window.location.href = "/";
-  }
+      // Fetch user info and store ID
+      fetch("https://api.spotify.com/v1/me", {
+        headers: { Authorization: `Bearer ${auth}` }
+      })
+      .then(res => res.json())
+      .then(data => {
+        localStorage.setItem("currentUserId", data.id);
+        navigate("/home");  // Redirect as soon as accessToken is present
+      });
+    }
+  }, [navigate]);
+
+  // Early return: if accessToken is present, show nothing and wait for redirect
+  if (accessToken) return null;
 
   return (
     <div className="login-container">
@@ -34,26 +41,14 @@ function Login() {
         <h1>Listen. Share. Vibe.</h1>
         <p>Please sign in with Spotify to continue</p>
 
-        {accessToken ? (
-          <div className="logged-in-section">
-            <p>Welcome back! You’re signed in with Spotify.</p>
-            <ul>
-              <li><strong>Access Token:</strong> {`${accessToken}`}</li>
-              <li><strong>Refresh Token:</strong> {`${refreshToken}`}</li>
-              <li><strong>Expires In:</strong> {`${expiresIn}`} seconds</li>
-            </ul>
-            <button onClick={handleSignOut}>Sign Out</button>
-          </div>
-        ) : (
-          <div className="login-section">
-            <button
-              className="spotify-button"
-              onClick={() => window.location.href = "https://test-spotify-site.local:5050/login"}
-            >
-              Sign in with Spotify
-            </button>
-          </div>
-        )}
+        <div className="login-section">
+          <button
+            className="spotify-button"
+            onClick={() => window.location.href = "https://test-spotify-site.local:5050/login"}
+          >
+            Sign in with Spotify
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Home.css';
-import { db } from '../firebase';  // Adjust the path if needed
+import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';  // import useNavigate
 
 const Home = () => {
   const [users, setUsers] = useState([]);
+  const [forums, setForums] = useState([]);
+  const navigate = useNavigate();  // initialize navigate
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchData = async () => {
       try {
+        // Fetch users
         const usersCollection = collection(db, 'users');
         const userSnapshot = await getDocs(usersCollection);
         const userList = userSnapshot.docs.map(doc => ({
@@ -16,13 +20,34 @@ const Home = () => {
           username: doc.data().username,
           profilePicture: doc.data().profilePictureUrl
         }));
+
+        // Fetch forums
+        const forumsCollection = collection(db, 'forums');
+        const forumSnapshot = await getDocs(forumsCollection);
+        const forumList = forumSnapshot.docs.map(doc => {
+          const data = doc.data();
+          const user = userList.find(u => u.id === data.creatorId);
+          return {
+            id: doc.id,
+            name: data.name,
+            description: data.description,
+            likes: data.likes,
+            creator: user ? {
+              id: user.id,
+              username: user.username,
+              profilePicture: user.profilePicture
+            } : null
+          };
+        });
+
         setUsers(userList);
+        setForums(forumList);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchUsers();
+    fetchData();
   }, []);
 
   return (
@@ -30,7 +55,12 @@ const Home = () => {
       <h1>Suggested Users</h1>
       <div className="horizontal-scroll">
         {users.map(user => (
-          <div key={user.id} className="user-square">
+          <div 
+            key={user.id} 
+            className="user-square"
+            onClick={() => navigate(`/user/${user.id}`)}  // navigate to user profile on click
+            style={{ cursor: 'pointer' }}  // add pointer cursor
+          >
             <img src={user.profilePicture} alt={user.username} className="profile-picture" />
             <p>{user.username}</p>
           </div>
@@ -38,9 +68,30 @@ const Home = () => {
       </div>
 
       <h1>Top Discussions</h1>
-      {Array.from({ length: 20 }).map((_, index) => (
-        <div key={index} className="vertical-rectangle"></div>
-      ))}
+      {forums.length > 0 ? (
+        forums.map(forum => (
+          <div key={forum.id} className="forum-rectangle">
+            <div className="forum-content">
+             {forum.creator && (
+                <img
+                  src={forum.creator.profilePicture}
+                  alt={forum.creator.username}
+                  className="creator-pic"
+                  onClick={() => navigate(`/user/${forum.creator.id}`)}  // navigate to user profile on click
+                  style={{ cursor: 'pointer' }}  // add pointer cursor
+                />
+              )}
+              <div className="forum-text">
+                {forum.creator && <h3 className="forum-username">{forum.creator.username}</h3>}
+                <h2>{forum.name}</h2>
+                <p>{forum.description}</p>
+              </div>
+            </div>
+          </div>
+        ))
+      ) : (
+        <p>Loading forum posts...</p>
+      )}
     </div>
   );
 };
