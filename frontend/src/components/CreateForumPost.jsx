@@ -86,10 +86,10 @@ import { showNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import "../styles/createForumPost.css";
 
-const CreateForum = ({ onCreate }) => {
+const CreateForumPost = ({ onCreate }) => {
     const [forumName, setForumName] = useState("");
     const [description, setDescription] = useState("");
- 
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -159,4 +159,4 @@ const CreateForum = ({ onCreate }) => {
     );
 };
 
-export default CreateForum;
+export default CreateForumPost;

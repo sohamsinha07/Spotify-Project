@@ -7,6 +7,9 @@ import Inbox from './routes/Inbox'
 import UserProfile from './routes/UserProfile'
 import ProfileEdit from './routes/ProfileEdit'
 import { useState, useEffect } from "react";
+import CreateForumPost from './components/CreateForumPost'
+import '@mantine/core/styles.css';
+
 
 
 function App() {
@@ -46,10 +49,11 @@ function App() {
         <Route path="/inbox" element={<Inbox />} />
         <Route path="/userProfile" element={<UserProfile />} />
         <Route path="/profileEdit" element={<ProfileEdit />} />
+        <Route path="/createforumPost" element={<CreateForumPost />} />
 
       </Routes>
 
-            <p>Spotify Login Demo</p>
+      <p>Spotify Login Demo</p>
       {accessToken ? (
         <div>
           <p>You are signed in</p>
