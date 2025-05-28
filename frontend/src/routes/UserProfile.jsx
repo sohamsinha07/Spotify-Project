@@ -8,8 +8,11 @@ import axios from 'axios';
 import { db } from "../firebase";
 import { getDocs, collection, query, where } from "firebase/firestore";
 
-const fetchDocumentsByIds = async (collectionName, ids) => {
-  if (!ids || ids.length === 0) return [];
+const fetchDocumentsByIds = async (collectionName, items) => {
+  if (!items || items.length === 0) return [];
+
+  const ids = items.map(item => typeof item === "string" ? item : item.id);
+
   const q = query(collection(db, collectionName), where("__name__", "in", ids));
   const snapshot = await getDocs(q);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -33,7 +36,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`http://localhost:5050/api/user/${userId}`);
+        const res = await axios.get(`https://test-spotify-site.local:5050/api/user/${userId}`);
         const data = res.data;
         setUserData(data);
   
