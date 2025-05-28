@@ -5,6 +5,7 @@
     background-color: var(--secondary-background);
     color: var(--text-color);
     overflow: hidden;
+    height: 91vh;
   }
   
   .profileSidebar {
@@ -16,6 +17,7 @@
     justify-content: center;
     padding: 2rem;
     position: relative;
+    height: 100%;
   }
   
   .edit-icon {
@@ -35,6 +37,18 @@
     font-size: 8rem;
     color: var(--spotify-green);
     margin-bottom: 1rem;
+  }
+
+  .avatar-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .avatar-img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
   }
   
   .username {
