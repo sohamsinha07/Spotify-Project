@@ -1,46 +1,63 @@
-import React from "react";
-import { Card, Text, Group, Avatar, Button } from "@mantine/core";
-import { IconHeart, IconMessageCircle } from "@tabler/icons-react";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-import '../styles/post.css';
+import React, { useState } from 'react';
+import { Card, Button, Modal, Textarea } from '@mantine/core';
+import { IconHeart, IconMessageCircle } from '@tabler/icons-react';
 
-dayjs.extend(relativeTime);
+const Post = ({ forum, onLike, comments, onAddComment }) => {
+    const [commentsOpened, setCommentsOpened] = useState(false);
+    const [newComment, setNewComment] = useState('');
 
-/* this is where people can create a post and have it be seen in the forum page */
-const Post = ({ forum, onLike, onComment }) => {
+    const handleSubmitComment = () => {
+        if (newComment.trim() === '') return;
+
+        onAddComment(forum.id, newComment);
+        setNewComment('');
+        // Optionally close modal here: setCommentsOpened(false);
+    };
+
     return (
-        <Card className="forumCard">
-            <div className="forumInfo">
-                <div className="forum-user">
-                    <Avatar src={forum.userAvatar} alt={forum.userName} radius="xl" />
-                    <div className="forum-user-details">
-                        <p className="forum-username">{forum.userName}</p>
-                        <p className="forum-timestamp">{dayjs(forum.createdAt).fromNow()}</p>
-                    </div>
-                </div>
-            </div>
+        <>
+            <Card>
+                <h3>{forum.title}</h3>
+                <p>{forum.snippet}</p>
 
-            <h3 className="forum-title">{forum.title}</h3>
-            <p className="forum-snippet">{forum.snippet}</p>
-
-            <div className="forum-actions">
-                <Button
-                    variant="light"
-                    leftIcon={<IconHeart size={16} />}
-                    onClick={() => onLike(forum.id)}
-                >
+                <Button leftIcon={<IconHeart />} onClick={() => onLike(forum.id)}>
                     {forum.likes}
                 </Button>
+
                 <Button
-                    variant="light"
-                    leftIcon={<IconMessageCircle size={16} />}
-                    onClick={() => onComment(forum.id)}
+                    leftIcon={<IconMessageCircle />}
+                    onClick={() => setCommentsOpened(true)}
                 >
                     {forum.commentsCount} Comments
                 </Button>
-            </div>
-        </Card>
+            </Card>
+
+            <Modal
+                opened={commentsOpened}
+                onClose={() => setCommentsOpened(false)}
+                title="Comments"
+            >
+                {/* Comment list */}
+                <div>
+                    {comments.length === 0 && <p>No comments yet</p>}
+                    {comments.map((comment) => (
+                        <div key={comment.id} style={{ marginBottom: 10 }}>
+                            <b>{comment.userName}:</b> {comment.text}
+                        </div>
+                    ))}
+                </div>
+
+                {/* Add comment box */}
+                <Textarea
+                    placeholder="Write your comment..."
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.currentTarget.value)}
+                    minRows={3}
+                    mb="md"
+                />
+                <Button onClick={handleSubmitComment}>Submit Comment</Button>
+            </Modal>
+        </>
     );
 };
 
