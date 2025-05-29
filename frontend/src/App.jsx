@@ -10,6 +10,7 @@ import ProfileEdit from './routes/ProfileEdit'
 import Login from './routes/Login'
 import { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
+import ForumDetail from './components/ForumDetails'
 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
         <Route path="/user" element={<UserProfile />} />
         <Route path="/profileEdit" element={<ProfileEdit />} />
         <Route path="/user/:userId" element={<UserProfile />} />
+        <Route path="/forum/:forumId" element={<ForumDetail />} />
       </Routes>
     </>
   )
