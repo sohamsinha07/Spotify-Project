@@ -12,8 +12,10 @@ app.use(express.json());
 app.use(cors());
 
 const loginRouter = require("./server/login");
+const profileEditRouter = require('./server/profileEdit');
 app.use("/login", loginRouter);
 app.use("/api/user", userRoute);
+app.use('/api', profileEditRouter);
 
 // HTTPS configuration with mkcert
 const options = {

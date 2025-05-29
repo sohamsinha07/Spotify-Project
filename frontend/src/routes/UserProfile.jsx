@@ -56,7 +56,7 @@ const UserProfile = () => {
 
       <div className="user-profile-container">
         <aside className="profileSidebar">
-          <Link to="/profileEdit">
+          <Link to={`/profileEdit/${userData.id}`}>
             <FaEdit className="edit-icon" />
           </Link>
 
