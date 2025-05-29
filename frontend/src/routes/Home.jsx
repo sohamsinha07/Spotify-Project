@@ -32,30 +32,37 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://test-spotify-site.local:5050/api/forum/all', {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' }
-        });
-        const data = await response.json();
+        // Fetch users
+        const usersCollection = collection(db, 'users');
+        const userSnapshot = await getDocs(usersCollection);
+        const userList = userSnapshot.docs.map(doc => ({
+          id: doc.id,
+          username: doc.data().username,
+          profilePicture: doc.data().profilePictureUrl,
+          isPrivate: doc.data().isPrivate
+        }));
 
-        if (response.ok) {
-          const userList = data.users;
-          const forumList = data.forums.map(forum => {
-            const creator = userList.find(u => u.id === forum.creatorId);
-            return {
-              ...forum,
-              creator: creator ? {
-                id: creator.id,
-                username: creator.username,
-                profilePicture: creator.profilePicture
-              } : null
-            };
-          });
-          setUsers(userList);
-          setForums(forumList);
-        } else {
-          console.error("Failed to fetch data from server:", data.error);
-        }
+        // Fetch forums
+        const forumsCollection = collection(db, 'forums');
+        const forumSnapshot = await getDocs(forumsCollection);
+        const forumList = forumSnapshot.docs.map(doc => {
+          const data = doc.data();
+          const user = userList.find(u => u.id === data.creatorId);
+          return {
+            id: doc.id,
+            name: data.name,
+            description: data.description,
+            likes: data.likes,
+            creator: user ? {
+              id: user.id,
+              username: user.username,
+              profilePicture: user.profilePicture
+            } : null
+          };
+        });
+
+        setUsers(userList);
+        setForums(forumList);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -77,6 +84,14 @@ const Home = () => {
               className="user-square"
               onClick={() => navigate(`/user/${user.id}`)}
               style={{ cursor: 'pointer' }}
+        {users
+          .filter(user => user.isPrivate === false) 
+          .map(user => (
+            <div 
+              key={user.id} 
+              className="user-square"
+              onClick={() => navigate(`/user/${user.id}`)}  
+              style={{ cursor: 'pointer' }}
             >
               <img
                 src={user.profilePicture || '/avatar.png'}
@@ -89,9 +104,17 @@ const Home = () => {
         ) : (
           <p>Loading users...</p>
         )}
+              <img 
+                src={user.profilePicture || '/avatar.png'} 
+                alt={user.username} 
+                className="profile-picture" 
+              />
+              <p className="username-ellipsis">{user.username}</p>
+            </div>
+        ))}
       </div>
 
-      <h1>Top Discussions</h1>
+      <h1>Trending Discussions</h1>
       {forums.length > 0 ? (
         forums.map(forum => (
           <div key={forum.id} className="forum-rectangle">

@@ -95,6 +95,19 @@ router.get("/users", async (req, res) => {
   }
 });
 
+router.get("/users-full", async (req, res) => {
+  try {
+    const snapshot = await db.collection("users").get();
+    const users = snapshot.docs.map(doc => ({
+      id: doc.id,
+      username: doc.data().username || doc.id
+    }));
+    res.json(users);
+  } catch (err) {
+    res.status(500).send("Failed to fetch users");
+  }
+});
+
 router.delete("/delete-chat", async (req, res) => {
   const { user1, user2 } = req.body;
 

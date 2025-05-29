@@ -58,7 +58,7 @@
 }
 
 .forum-rectangle {
-  max-width: 100%;
+  width: 98%;
   min-height: 150px;
   background-color: #121212;
   border-radius: 8px;

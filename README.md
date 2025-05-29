@@ -104,9 +104,15 @@ This project is a Spotify-integrated web application developed as part of a summ
 ## 🙌 Credits
 
 - Intern Dev Team 4– Launch SWE 2025
+  - [My Nguyen](https://github.com/myngpog)  
+  - [Soham Sinha](https://github.com/sohamsinha07)  
+  - [Nick Nguyen](https://github.com/Nickn2137)  
+  - [Oakley](https://github.com/Okailey)  
+  - [Henok Foslyk](https://github.com/Henok-foslyk)
+  
 - Forge & Spotify Mentors
 - Project Mentors & Reviewers
-- Special thanks to:
+- Further resources:
   - [Spotify API Documentation](https://developer.spotify.com/documentation/web-api/)
   - [Firebase Docs](https://firebase.google.com/docs)
   - [Express.js](https://expressjs.com/)

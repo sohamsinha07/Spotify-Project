@@ -1,6 +1,6 @@
 const express = require("express");
-const db = require("../firebaseAdmin");
-
+const admin = require("firebase-admin");
+const db = admin.firestore();
 const router = express.Router();
 
 const fetchSongDataByIds = async (ids) => {
