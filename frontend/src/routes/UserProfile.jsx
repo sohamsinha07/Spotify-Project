@@ -71,7 +71,7 @@ const UserProfile = () => {
           <h2 className="username">{userData.username}</h2>
           <hr className="divider" />
           <p className="bio">{userData.bio}</p>
-          <Link to="/inbox"><FaEnvelope className="email-icon" /></Link>
+          {/* <Link to="/inbox"><FaEnvelope className="email-icon" /></Link> */}
         </aside>
 
         <main className="main-content">
