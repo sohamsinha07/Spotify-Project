@@ -1,17 +1,24 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import '../styles/NavBar.css'; 
+import logo from '../assets/icon.png';
+import { FaClipboardList, FaEnvelope, FaUserCircle } from 'react-icons/fa';
 
 const Navbar = () => {
     return (
-        <nav>
-            <ul>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/forum">Forum</Link></li>
-                <li><Link to="/inbox">Inbox</Link></li>
-                <li><Link to="/userProfile">UserProfile</Link></li>
-                <li><Link to="/settings">Settings</Link></li>
-            </ul>
-        </nav>
+      <nav className="navbar">
+        <div className="navbar-left">
+          <Link to="/" className="navbar-home-link">
+            <img src={logo} alt="logo" className="logo" />
+            <span className="brand">SpotiVibe</span>
+          </Link>
+        </div>
+        <div className="navbar-right">
+            <Link to="/forum"><FaClipboardList /></Link>
+            <Link to="/inbox"><FaEnvelope /></Link>
+            <Link to="/user"><FaUserCircle /></Link>
+        </div>
+      </nav>
     )
 }
 

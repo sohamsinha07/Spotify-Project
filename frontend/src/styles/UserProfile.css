@@ -1,0 +1,152 @@
+@import '../index.css';
+
+.user-profile-container {
+    display: flex;
+    background-color: var(--secondary-background);
+    color: var(--text-color);
+    overflow: hidden;
+    height: 91vh;
+  }
+  
+  .profileSidebar {
+    width: 30%;
+    background-color: var(--secondary-background);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    height: 100%;
+  }
+  
+  .edit-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: gray;
+    cursor: pointer;
+    font-size: 1.5rem;
+  }
+
+  .edit-icon:hover{
+    color: rgb(90, 90, 90);
+  }
+  
+  .avatar {
+    font-size: 8rem;
+    color: var(--spotify-green);
+    margin-bottom: 1rem;
+  }
+
+  .avatar-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .avatar-img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .username {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .divider {
+    width: 60%;
+    border-color: gray;
+    margin: 0.5rem 0;
+  }
+  
+  .bio {
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .email-icon {
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+    color: rgb(224, 224, 224);
+    cursor: pointer;
+  }
+
+  .email-icon:hover {
+    color: var(--spotify-green);
+  }
+
+  .main-content {
+    flex: 1;
+    padding: 2rem;
+    background-color: var(--primary-background);
+  }
+  
+  .section {
+    background-color: #414141;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid gray;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    color: rgb(255, 255, 255);
+  }
+  
+  .list-item {
+    display: flex;
+    align-items: center;
+    background-color: #292929;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 6px;
+  }
+  
+  .list-avatar {
+    background-color: rgb(111, 173, 111);
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 1rem;
+  }
+
+  .icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    font-size: 1.25rem; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .icon-button:hover {
+    color: var(--spotify-green);
+  }
+
+  .filter-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .filter-label {
+    margin: 0;
+    color: #b8b8b8;
+  }

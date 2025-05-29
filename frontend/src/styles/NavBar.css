@@ -1,0 +1,55 @@
+@import '../index.css';
+
+.navbar {
+    width: 100vw;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: var(--header-color);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 2rem; 
+    box-sizing: border-box; 
+  }
+  
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .navbar-home-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .logo {
+    height: 30px;
+  }
+  
+  .brand {
+    font-size: 1.75rem;
+    color: #1DB954;
+    font-weight: bold;
+  }
+  
+  .navbar-right {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 1.5rem;
+  }
+  
+  .navbar-right a {
+    color: white;
+    transition: color 0.2s ease-in-out;
+  }
+  
+  .navbar-right a:hover {
+    color: #1DB954;
+  }
+  

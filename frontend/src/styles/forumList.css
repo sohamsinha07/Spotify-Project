@@ -1,0 +1,42 @@
+.forum-container {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.forum-title {
+    margin-bottom: 1rem;
+    font-weight: 700;
+    color: #1db954;
+    /* Spotify green for a fresh look */
+    text-align: center;
+}
+
+.forum-card {
+    margin-top: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgb(0 0 0 / 0.1);
+    background-color: #ffffff;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    cursor: default;
+}
+
+.forum-card:hover {
+    box-shadow: 0 8px 12px rgb(0 0 0 / 0.15);
+    transform: translateY(-4px);
+    cursor: pointer;
+}
+
+.forum-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 0.5rem;
+}
+
+.forum-card-description {
+    font-size: 1rem;
+    color: #555555;
+    line-height: 1.4;
+}
