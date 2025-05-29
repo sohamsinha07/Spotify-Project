@@ -11,18 +11,9 @@ function Login() {
     const userId = urlParams.get("userId");
 
     if (userId) {
-      fetch(`https://test-spotify-site.local:5050/api/user/${userId}`)
-        .then(res => res.json())
-        .then(data => {
-          localStorage.setItem("currentUserId", userId);
-          localStorage.setItem("currentUserProfilePicture", data.profilePictureUrl || '/avatar.png');
-          window.location.href = '/home';
-        })
-        .catch(err => {
-          console.error("Failed to fetch user data:", err);
-        });
+      navigate(`/home?userId=${userId}`);
     }
-  }, [navigate, location]);
+  }, [location, navigate]);
 
 
   return (

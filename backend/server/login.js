@@ -93,7 +93,6 @@ router.get(`/callback`, async (req, res) => {
           const updatedUserData = updatedUserDoc.data(); //
 
           res.redirect(`http://localhost:5173/home?userId=${userData.id}`);
-                    
         } else {
           console.error('Spotify Response Error:', data);
           res.redirect(`/?${querystring.stringify({ error: `invalid_token` })}`);

@@ -64,7 +64,5 @@
   border-radius: 50%;
   object-fit: cover;
   display: block;
-  border: 2px solid var(--spotify-green); /* Spotify green outline */
   box-sizing: border-box;
-  box-shadow: 0 0 4px var(--spotify-green);
   }

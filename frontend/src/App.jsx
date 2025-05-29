@@ -31,7 +31,7 @@ function App() {
       setExpiresIn(expires);
     }
 
-    window.history.replaceState({}, document.title, window.location.pathname);
+    // window.history.replaceState({}, document.title, window.location.pathname); move to home page
   }, []);
 
   function handleSignOut() {

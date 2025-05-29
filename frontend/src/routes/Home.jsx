@@ -1,13 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Home.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Home = () => {
   const [users, setUsers] = useState([]);
   const [forums, setForums] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const currentUserId = localStorage.getItem("currentUserId");
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const userIdFromUrl = urlParams.get("userId");
+
+    // If userId is present in the URL but not in localStorage, fetch user data and set it
+    if (userIdFromUrl && !currentUserId) {
+      fetch(`https://test-spotify-site.local:5050/api/user/${userIdFromUrl}`)
+        .then(res => res.json())
+        .then(data => {
+          localStorage.setItem("currentUserId", userIdFromUrl);
+          localStorage.setItem("currentUserProfilePicture", data.profilePictureUrl || '/avatar.png');
+          window.location.href = '/home';  // Optional: Clean the URL
+        })
+        .catch(err => {
+          console.error("Failed to fetch user data:", err);
+        });
+    }
+  }, [location, currentUserId]);
 
   useEffect(() => {
     const fetchData = async () => {
