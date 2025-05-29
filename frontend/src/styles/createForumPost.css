@@ -1,17 +1,18 @@
 .forum-container {
-    max-width: 600px;
+    max-width: 800px;
     margin: 4rem auto;
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
     background-color: white;
-    color: var(--mantine-color-dark-0);
+    color: black;
 }
 
 
 .forum-title {
     margin-bottom: 1rem;
     font-size: 24px;
+    font-weight: bold;
     color: #ffffff;
     text-align: center;
 }
@@ -19,23 +20,30 @@
 .forum-input input,
 .forum-textarea textarea {
     background-color: #121212;
+    font-weight: bold;
     color: #fff;
     border: 1px solid #333;
 }
 
 .forum-input label,
 .forum-textarea label {
-    color: #ccc;
+    font-weight: bold;
+    color: #ccc !important;
 }
 
-.forum-input,
-.forum-textarea {
-    margin-bottom: 1.2rem;
-}
 
 .forum-button {
     align-self: flex-end;
     font-weight: bold;
+
+}
+
+.form {
+    background-color: black;
+    color: white;
+    padding: 10%;
+    height: 60vh;
+    margin: 2px 4px 2px auto;
 }
 
 

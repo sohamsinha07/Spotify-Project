@@ -5,32 +5,48 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #ffffff;
     color: #000000;
+    box-shadow: 50px;
 
 }
 
-.forum-search-input {
-    width: 100%;
-    max-width: 400px;
+.boxStyle {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     margin-bottom: 1.5rem;
+
+}
+
+
+.forum-search-input {
+    flex: 1;
+    border: 2px solid #1fa34f;
+    border-radius: 4px;
     font-size: 1rem;
 }
 
 
 .forum-add-button {
-    margin-bottom: 1.5rem;
-    cursor: pointer;
-    transition:  0.3s ease;
+    background-color: #1db954;
+    color: #fff;
+    transition: background-color .25s ease;
 }
 
 .forum-add-button:hover {
-    background-color: #4a90e2;
+    background-color: #003b16 !important;
 
+}
+
+.forum-icons-row {
+    display: flex;
+    gap: 40px;
+    align-items: center;
 }
 
 
 .forum-modal {
     padding: 2rem;
-    max-width: 500px;
+    max-width: 900px;
     border-radius: 10px;
 }
 

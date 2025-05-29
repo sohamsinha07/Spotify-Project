@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Post from '../components/Post';
-import { Card, Text, Title, Stack, Loader, Box, Button, Group, Modal, Input, Container, ActionIcon } from "@mantine/core";
+import { Card, Text, Title, Box, Modal, Input, Container, ActionIcon } from "@mantine/core";
 import '../styles/forum.css';
 import { useNavigate } from "react-router-dom";
 import { doc, updateDoc, increment, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import { IconPlus, IconHeartFilled, IconMessageCircle } from '@tabler/icons-react';
+import { IconPlus } from '@tabler/icons-react';
 import CreateForumPost from '../components/CreateForumPost';
 import ForumList from '../components/ForumList';
+import Likes from '../components/Likes';
+import Comments from '../components/Comments';
 
 const Forum = () => {
     const [forums, setForums] = useState([]);
@@ -16,11 +18,13 @@ const Forum = () => {
     const [usersMap, setUsersMap] = useState({});
     const [error, setError] = useState("");
     const [modalOpened, setModalOpened] = useState(false);
+    const [commentModalOpened, setCommentModalOpened] = useState(false);
     const navigate = useNavigate();
 
 
-    <ForumList />
+
     useEffect(() => {
+
         const fetchData = async () => {
             try {
                 setLoading(true);
@@ -80,25 +84,26 @@ const Forum = () => {
 
     return (
         <Container size="lg" mt="md" className="forum-container">
-            <Input
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                mb="md"
-                className="forum-search-input"
-            />
 
-            {/* Plus button to open modal */}
-            <ActionIcon
-                size="lg"
-                variant="filled"
-                color="blue"
-                onClick={() => setModalOpened(true)}
-                mb="md"
-                className="forum-add-button"
-            >
-                <IconPlus size={24} />
-            </ActionIcon>
+            <Box className="boxStyle" >
+                <Input
+                    placeholder="Search..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="forum-search-input"
+                    style={{ flex: 1 }}
+                />
+
+                <ActionIcon
+                    size="lg"
+                    variant="filled"
+                    color="green"
+                    onClick={() => setModalOpened(true)}
+                    className="forum-add-button"
+                >
+                    <IconPlus size={24} />
+                </ActionIcon>
+            </Box>
 
             {/* Modal for creating new forum post */}
             <Modal
@@ -154,22 +159,15 @@ const Forum = () => {
                         {/*making sure it is side by side (heart and comment) */}
                     </Text>
                     <div className="forum-icons-row">
-                        <Text
-                            size="sm"
-                            c="dimmed"
-                            mt="xs"
-                            style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleLike(forum.id);
-                            }}
-                        >
-                            <IconHeartFilled size={16} color="red" /> {forum.likes ?? 0}
-                        </Text>
+                        <Likes
+                            forumId={forum.id}
+                            initialLikes={forum.likes ?? 0}
+                            onLike={handleLike}
+                        />
 
-                        <Text size="sm" c="dimmed" mt="xs" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <IconMessageCircle size={16} stroke="gray" /> {forum.comments ?? 0}
-                        </Text>
+                        <Comments forum={forum}
+                            onClick={(e) => e.stopPropagation()}
+                        />
                     </div>
 
                     {/* gives us date for when someone is created */}

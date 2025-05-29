@@ -20,7 +20,7 @@ const CreateForumPost = ({ onSubmit }) => {
     const [description, setDescription] = useState("");
     const [dummyUsers, setDummyUsers] = useState([]);
 
-    // Fetch dummy users once when component mounts
+    // Fetch dummy users from our collection incase no oone has logged in
     useEffect(() => {
         async function fetchDummyUsers() {
             try {
@@ -36,11 +36,13 @@ const CreateForumPost = ({ onSubmit }) => {
     }, []);
 
     const handleCreation = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); //prevent refresh
 
+        //for the actual login user
         const auth = getAuth();
         const currentUser = auth.currentUser;
 
+        //we need both fields
         if (!forumName || !description) {
             showNotification({
                 title: "Missing fields",
@@ -56,9 +58,9 @@ const CreateForumPost = ({ onSubmit }) => {
         if (currentUser) {
             // Use logged-in user's uid
             creatorId = currentUser.uid;
-            
+
         } else {
-            // No logged-in user, pick a random dummy user
+            // No logged-in user so pick a random dummy user
             if (dummyUsers.length === 0) {
                 showNotification({
                     title: "No users available",
@@ -102,32 +104,34 @@ const CreateForumPost = ({ onSubmit }) => {
     };
 
     return (
-        <Box className="forum-container" sx={{ maxWidth: 1800, margin: "4rem auto", padding: "0 1rem" }}>
+        <Box className="forum-container" >
             <Title order={4} className="forum-title">
                 Create a New Forum
             </Title>
             <form onSubmit={handleCreation}>
-                <TextInput
-                    label="Forum Name"
-                    placeholder="kendrick"
-                    value={forumName}
-                    onChange={(e) => setForumName(e.currentTarget.value)}
-                    required
-                    className="forum-input"
-                />
-                <Textarea
-                    label="Forum Description"
-                    placeholder="What is this forum about?"
-                    value={description}
-                    onChange={(e) => setDescription(e.currentTarget.value)}
-                    autosize
-                    minRows={3}
-                    required
-                    className="forum-textarea"
-                />
-                <Button type="submit" color="#1db954" className="forum-button">
-                    Create Forum
-                </Button>
+                <Box className="form">
+                    <TextInput
+                        label="Forum Name"
+                        placeholder="..."
+                        value={forumName}
+                        onChange={(e) => setForumName(e.currentTarget.value)}
+                        required
+                        className="forum-input"
+                    />
+                    <Textarea
+                        label="Forum Description"
+                        placeholder="What is this forum about?"
+                        value={description}
+                        onChange={(e) => setDescription(e.currentTarget.value)}
+                        autosize
+                        minRows={3}
+                        required
+                        className="forum-textarea"
+                    />
+                    <Button type="submit" color="green" className="forum-button">
+                        Create Forum
+                    </Button>
+                </Box>
             </form>
         </Box>
     );

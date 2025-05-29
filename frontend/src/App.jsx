@@ -10,6 +10,7 @@ import Login from './routes/Login'
 import { useState, useEffect } from "react";
 import CreateForumPost from './components/CreateForumPost'
 import '@mantine/core/styles.css';
+import CommentsList from './components/CommentList'
 
 
 
@@ -51,6 +52,9 @@ function App() {
         <Route path="/profileEdit" element={<ProfileEdit />} />
         <Route path="/login" element={<Login />} />
         <Route path="/createforumPost" element={<CreateForumPost />} />
+        {/* <Route path="/comments" element={<CommentsList />} /> */}
+        <Route path="/forums/:forumId" element={<CommentsList />} />
+
 
         <Route path="/user/:userId" element={<UserProfile />} />
       </Routes>
