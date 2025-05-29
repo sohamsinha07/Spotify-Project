@@ -103,7 +103,7 @@ This project is a Spotify-integrated web application developed as part of a summ
 
 ## 🙌 Credits
 
-- Intern Dev Team – Launch SWE 2025
+- Intern Dev Team 4– Launch SWE 2025
 - Forge & Spotify Mentors
 - Project Mentors & Reviewers
 - Special thanks to:
