@@ -88,13 +88,7 @@ router.get(`/callback`, async (req, res) => {
 
           await saveUserToFirestore(userData, likedSongs, topArtists, topSongs);
 
-          const queryParams = querystring.stringify({
-            access_token,
-            refresh_token,
-            expires_in,
-          });
-
-          res.redirect(`http://localhost:5173/?${queryParams}`);
+          res.redirect(`http://localhost:5173/home?userId=${userData.id}`);
           
         } else {
           console.error('Spotify Response Error:', data);

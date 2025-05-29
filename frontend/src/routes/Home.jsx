@@ -1,47 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Home.css';
-import { db } from '../firebase';
-import { collection, getDocs } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';  // import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [users, setUsers] = useState([]);
   const [forums, setForums] = useState([]);
-  const navigate = useNavigate();  // initialize navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch users
-        const usersCollection = collection(db, 'users');
-        const userSnapshot = await getDocs(usersCollection);
-        const userList = userSnapshot.docs.map(doc => ({
-          id: doc.id,
-          username: doc.data().username,
-          profilePicture: doc.data().profilePictureUrl
-        }));
-
-        // Fetch forums
-        const forumsCollection = collection(db, 'forums');
-        const forumSnapshot = await getDocs(forumsCollection);
-        const forumList = forumSnapshot.docs.map(doc => {
-          const data = doc.data();
-          const user = userList.find(u => u.id === data.creatorId);
-          return {
-            id: doc.id,
-            name: data.name,
-            description: data.description,
-            likes: data.likes,
-            creator: user ? {
-              id: user.id,
-              username: user.username,
-              profilePicture: user.profilePicture
-            } : null
-          };
+        // Fetch from updated backend endpoint
+        const response = await fetch('https://test-spotify-site.local:5050/api/forum/all', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' }
         });
+        const data = await response.json();
 
-        setUsers(userList);
-        setForums(forumList);
+        if (response.ok) {
+          const userList = data.users;
+          const forumList = data.forums.map(forum => {
+            const creator = userList.find(u => u.id === forum.creatorId);
+            return {
+              ...forum,
+              creator: creator ? {
+                id: creator.id,
+                username: creator.username,
+                profilePicture: creator.profilePicture
+              } : null
+            };
+          });
+          setUsers(userList);
+          setForums(forumList);
+        } else {
+          console.error("Failed to fetch data from server:", data.error);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -55,16 +48,16 @@ const Home = () => {
       <h1>Suggested Users</h1>
       <div className="horizontal-scroll">
         {users.map(user => (
-          <div 
-            key={user.id} 
+          <div
+            key={user.id}
             className="user-square"
-            onClick={() => navigate(`/user/${user.id}`)}  // navigate to user profile on click
-            style={{ cursor: 'pointer' }}  // add pointer cursor
-            >
-            <img 
-              src={user.profilePicture || '/avatar.png'} 
-              alt={user.username} 
-              className="profile-picture" 
+            onClick={() => navigate(`/user/${user.id}`)}
+            style={{ cursor: 'pointer' }}
+          >
+            <img
+              src={user.profilePicture || '/avatar.png'}
+              alt={user.username}
+              className="profile-picture"
             />
             <p className="username-ellipsis">{user.username}</p>
           </div>
@@ -76,14 +69,14 @@ const Home = () => {
         forums.map(forum => (
           <div key={forum.id} className="forum-rectangle">
             <div className="forum-content">
-             {forum.creator && (
-                 <img
-                    src={forum.creator.profilePicture || '/avatar.png'}
-                    alt={forum.creator.username}
-                    className="creator-pic"
-                    onClick={() => navigate(`/user/${forum.creator.id}`)}
-                    style={{ cursor: 'pointer' }}
-                  />
+              {forum.creator && (
+                <img
+                  src={forum.creator.profilePicture || '/avatar.png'}
+                  alt={forum.creator.username}
+                  className="creator-pic"
+                  onClick={() => navigate(`/user/${forum.creator.id}`)}
+                  style={{ cursor: 'pointer' }}
+                />
               )}
               <div className="forum-text">
                 {forum.creator && <h3 className="forum-username">{forum.creator.username}</h3>}

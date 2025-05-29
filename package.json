@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "firebase": "^11.8.1",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
