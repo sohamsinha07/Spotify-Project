@@ -39,3 +39,24 @@
 .form-group {
   margin-bottom: 16px;
 }
+
+.button-container {
+  text-align: center;
+  margin-top: 16px;
+}
+
+button[type="submit"] {
+  background-color: var(--spotify-green);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 16px;
+}
+
+button[type="submit"]:hover {
+  background-color: #169c46; 
+}

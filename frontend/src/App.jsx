@@ -50,7 +50,7 @@ function App() {
         <Route path="/forum" element={<Forum />} />
         <Route path="/inbox" element={<Inbox />} />
         <Route path="/user" element={<UserProfile />} />
-        <Route path="/profileEdit" element={<ProfileEdit />} />
+        <Route path="/profileEdit/:userId" element={<ProfileEdit />} />
         <Route path="/user/:userId" element={<UserProfile />} />
       </Routes>
     </>
