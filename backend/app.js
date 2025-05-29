@@ -11,6 +11,9 @@ const port = 5050;
 app.use(express.json());
 app.use(cors());
 
+const inboxRouter = require("./server/inbox");
+app.use("/inbox", inboxRouter);
+
 const loginRouter = require("./server/login");
 const profileEditRouter = require('./server/profileEdit');
 app.use("/login", loginRouter);
