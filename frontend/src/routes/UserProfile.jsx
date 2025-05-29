@@ -103,7 +103,13 @@ const UserProfile = () => {
             {resolvedLikedSongs.length > 0 ? (
               resolvedLikedSongs.map((song) => (
                 <div key={song.id} className="list-item">
-                  <div className="list-avatar"><FaMusic /> </div>
+                  <div className="list-avatar">
+                    {song.imageUrl ? (
+                      <img src={song.imageUrl} alt="Artist Avatar" className="avatar-img" />
+                    ) : (
+                      <FaMusic />
+                    )}
+                  </div>
                   <span>
                     {song.title} <span style={{ color: 'gray' }}>by: {song.artist}</span>
                   </span>
@@ -128,7 +134,13 @@ const UserProfile = () => {
             {resolvedTopArtists.length > 0 ? (
               resolvedTopArtists.map((artist) => (
                 <div key={artist.id} className="list-item"> 
-                  <div className="list-avatar"><FaMusic /> </div>
+                <div className="list-avatar">
+                  {artist.imageUrl ? (
+                    <img src={artist.imageUrl} alt="Artist Avatar" className="avatar-img" />
+                  ) : (
+                    <FaMusic />
+                  )}
+                </div>
                   <span>{artist.name}</span>
                 </div>
               ))
@@ -152,7 +164,13 @@ const UserProfile = () => {
             {resolvedTopSongs.length > 0 ? (
               resolvedTopSongs.map((song) => (
                 <div key={song.id} className="list-item">
-                  <div className="list-avatar"><FaMusic /> </div>
+                <div className="list-avatar">
+                  {song.imageUrl ? (
+                    <img src={song.imageUrl} alt="Song Avatar" className="avatar-img" />
+                  ) : (
+                    <FaMusic />
+                  )}
+                </div>
                   <span>
                     {song.title} <span style={{ color: 'gray' }}> by: {song.artist}</span>
                   </span>

@@ -1,5 +1,5 @@
 const express = require("express");
-const { db } = require("../firebaseAdmin");  
+const { db } = require("../firebaseAdmin");
 
 const router = express.Router();
 
@@ -11,32 +11,43 @@ const fetchSongDataByIds = async (ids) => {
 
   const songDataWithArtist = await Promise.all(songSnaps.map(async (snap) => {
     const songData = snap.data();
-    const artistId = songData.artistId;
-    
-    const artistSnap = await db.collection('artists').doc(artistId).get();
-    const artistName = artistSnap.exists ? artistSnap.data().name : "Unknown Artist";
+
+    if (!songData) {
+      console.error("No data found for song:", snap.id);
+      return null;
+    }
+
+    const artistName = songData.artistName || "Unknown Artist";
+    const imageUrl = songData.imageUrl || "";
 
     return {
       id: snap.id,
       title: songData.title,
-      artist: artistName
+      artist: artistName,
+      imageUrl: imageUrl 
     };
   }));
 
-  return songDataWithArtist;
+  return songDataWithArtist.filter(item => item !== null);
 };
 
 const fetchArtistDataByIds = async (ids) => {
   if (!ids || ids.length === 0) return [];
+
   const artistRefs = ids.map(id => db.collection('artists').doc(id)); 
   const artistSnaps = await db.getAll(...artistRefs);
-  return artistSnaps.map(snap => ({
-    id: snap.id,
-    name: snap.data().name  
-  }));
+
+  return artistSnaps.map(snap => {
+    const artistData = snap.data();
+
+    return {
+      id: snap.id,
+      name: artistData.name,
+      imageUrl: artistData.imageUrl || "",
+    };
+  });
 };
 
-// Route to get user data
 router.get('/:userId', async (req, res) => {
   const { userId } = req.params;
   try {
@@ -58,7 +69,7 @@ router.get('/:userId', async (req, res) => {
       ...user,
       likedSongs: likedSongsData,
       topSongs: topSongsData,
-      topArtists: topArtistsData
+      topArtists: topArtistsData 
     });
   } catch (error) {
     console.error('Error fetching user data:', error);

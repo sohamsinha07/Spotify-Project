@@ -50,6 +50,13 @@
     border-radius: 50%;
     object-fit: cover;
   }
+
+  .list-avatar img {
+    width: 35px; 
+    height: 35px;
+    border-radius: 50%; 
+    object-fit: cover;
+  }
   
   .username {
     margin: 0;
@@ -90,7 +97,10 @@
     margin-bottom: 2rem;
     padding: 1rem;
     border-radius: 8px;
+    max-height: 31%; 
+    overflow-y: auto; 
   }
+  
   
   .section-header {
     display: flex;
@@ -99,7 +109,7 @@
     border-bottom: 1px solid gray;
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
-    color: rgb(255, 255, 255);
+    color: rgb(91, 211, 133);
   }
   
   .list-item {
