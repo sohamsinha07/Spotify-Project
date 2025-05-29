@@ -1,33 +1,30 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/ProfileForm.css';
 
 const ProfileForm = ({ initialData, onSubmit }) => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
     username: '',
-    email: '',
     bio: '',
+    isPrivate: false,
   });
 
   useEffect(() => {
     if (initialData) {
       setFormData({
-        firstName: initialData.firstName || '',
-        lastName: initialData.lastName || '',
         username: initialData.username || '',
-        email: initialData.email || '',
         bio: initialData.bio || '',
+        isPrivate: initialData.isPrivate || false,
       });
     }
   }, [initialData]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+    const fieldValue = type === 'checkbox' ? checked : value;
 
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: fieldValue,
     }));
   };
 
@@ -40,35 +37,6 @@ const ProfileForm = ({ initialData, onSubmit }) => {
 
   return (
     <form className="form-container" onSubmit={handleSubmit}>
-      {/* First and Last Name */}
-      <div className="row">
-        <div className="field">
-          <label htmlFor="firstName" className="label">First Name</label>
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            placeholder="Enter your first name"
-            className="input"
-          />
-        </div>
-
-        <div className="field">
-          <label htmlFor="lastName" className="label">Last Name</label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            placeholder="Enter your last name"
-            className="input"
-          />
-        </div>
-      </div>
-
       {/* Username */}
       <div className="form-group">
         <label htmlFor="username" className="label">Username</label>
@@ -83,25 +51,11 @@ const ProfileForm = ({ initialData, onSubmit }) => {
         />
       </div>
 
-      {/* Email */}
-      <div className="form-group">
-        <label htmlFor="email" className="label">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="you@example.com"
-          className="input"
-        />
-      </div>
-
       {/* Bio */}
       <div className="form-group">
         <label htmlFor="bio" className="label">Bio</label>
         <textarea
-          id="Bio"
+          id="bio"
           name="bio"
           value={formData.bio}
           onChange={handleChange}
@@ -111,11 +65,23 @@ const ProfileForm = ({ initialData, onSubmit }) => {
         />
       </div>
 
-      {/* Submit Button */}
+      {/* isPrivate Toggle */}
+      <div className="form-group">
+        <label htmlFor="isPrivate" className="label">
+          <input
+            type="checkbox"
+            id="isPrivate"
+            name="isPrivate"
+            checked={formData.isPrivate}
+            onChange={handleChange}
+          />
+          &nbsp;Make my profile private
+        </label>
+      </div>
+
       <div className="button-container">
         <button type="submit" className="button">Save Changes</button>
       </div>
-
     </form>
   );
 };

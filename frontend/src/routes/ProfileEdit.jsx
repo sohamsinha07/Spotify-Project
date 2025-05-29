@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ProfileForm from '../components/ProfileForm';
 import { useParams } from 'react-router-dom';
-import {FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
 import '../styles/ProfileEdit.css';
 import axios from 'axios';
 
@@ -9,12 +9,11 @@ const ProfileEdit = () => {
   const { userId } = useParams();
   const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showAvatarDialog, setShowAvatarDialog] = useState(false);
+  const [newAvatarUrl, setNewAvatarUrl] = useState('');
 
   useEffect(() => {
-    if (!userId) {
-      console.log("No userId provided");
-      return;
-    }
+    if (!userId) return;
 
     const fetchUser = async () => {
       try {
@@ -32,12 +31,23 @@ const ProfileEdit = () => {
 
   const handleSubmit = async (updatedData) => {
     try {
-      await axios.put(`https://test-spotify-site.local:5050/api/user/${userId}`, updatedData);
+      const payload = { ...updatedData };
+      if (formData.profilePictureUrl) {
+        payload.profilePictureUrl = formData.profilePictureUrl;
+      }
+
+      await axios.put(`https://test-spotify-site.local:5050/api/user/${userId}`, payload);
       alert('Profile updated successfully!');
     } catch (err) {
       console.error('Error updating profile:', err);
       alert('Failed to update profile');
     }
+  };
+
+  const handleAvatarSave = () => {
+    if (!newAvatarUrl) return;
+    setFormData((prev) => ({ ...prev, profilePictureUrl: newAvatarUrl }));
+    setShowAvatarDialog(false);
   };
 
   if (loading) return <p>Loading...</p>;
@@ -49,8 +59,37 @@ const ProfileEdit = () => {
       <div className="profile-edit-container">
         {/* Avatar */}
         <div className="avatar-section">
-          <FaUserCircle className="avatar" />
-          <div className="change-avatar">Change Avatar</div>
+          {formData.profilePictureUrl ? (
+            <img
+              src={formData.profilePictureUrl}
+              alt="Profile"
+              className="avatar-img"
+            />
+          ) : (
+            <FaUserCircle className="avatar" />
+          )}
+          <button
+            className="change-avatar-button"
+            onClick={() => setShowAvatarDialog(true)}
+          >
+            Change Avatar
+          </button>
+
+          {/* Avatar URL Input Dialog */}
+          {showAvatarDialog && (
+            <div className="avatar-dialog">
+              <input
+                type="text"
+                placeholder="Enter image URL"
+                value={newAvatarUrl}
+                onChange={(e) => setNewAvatarUrl(e.target.value)}
+              />
+              <div className="button-group">
+                <button onClick={handleAvatarSave}>Apply</button>
+                <button onClick={() => setShowAvatarDialog(false)}>Cancel</button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Form */}

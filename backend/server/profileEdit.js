@@ -23,9 +23,10 @@ router.get("/user/:userId", async (req, res) => {
 });
 
 // PUT /api/user/:userId — update user profile by Firestore doc ID
+// PUT /api/user/:userId — update only username, bio, isPrivate
 router.put("/user/:userId", async (req, res) => {
   const { userId } = req.params;
-  const { firstName, lastName, email, bio } = req.body;
+  const { username, bio, isPrivate, profilePictureUrl } = req.body;
 
   try {
     const userRef = db.collection("users").doc(userId);
@@ -36,10 +37,10 @@ router.put("/user/:userId", async (req, res) => {
     }
 
     const updates = {};
-    if (firstName !== undefined) updates.firstName = firstName;
-    if (lastName !== undefined) updates.lastName = lastName;
-    if (email !== undefined) updates.email = email;
+    if (username !== undefined) updates.username = username;
     if (bio !== undefined) updates.bio = bio;
+    if (isPrivate !== undefined) updates.isPrivate = isPrivate;
+    if (profilePictureUrl !== undefined) updates.profilePictureUrl = profilePictureUrl;
 
     await userRef.update(updates);
 
@@ -49,5 +50,6 @@ router.put("/user/:userId", async (req, res) => {
     return res.status(500).json({ error: "Failed to update user" });
   }
 });
+
 
 module.exports = router;
