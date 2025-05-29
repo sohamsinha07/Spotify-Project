@@ -88,8 +88,12 @@ router.get(`/callback`, async (req, res) => {
 
           await saveUserToFirestore(userData, likedSongs, topArtists, topSongs);
 
+          const userRef = db.collection('users').doc(userData.id); //
+          const updatedUserDoc = await userRef.get();
+          const updatedUserData = updatedUserDoc.data(); //
+
           res.redirect(`http://localhost:5173/home?userId=${userData.id}`);
-          
+                    
         } else {
           console.error('Spotify Response Error:', data);
           res.redirect(`/?${querystring.stringify({ error: `invalid_token` })}`);
@@ -234,7 +238,7 @@ const saveUserToFirestore = async (userData, likedSongs, topArtists, topSongs) =
   await userRef.set({
     username: userData.display_name,
     email: userData.email,
-    profilePictureUrl: userData.images[0]?.url || '',
+    profilePictureUrl: userData.images[0]?.url || '/avatar.png',
     spotifyId: userData.id,
     bio: userData.bio || "Hi! I'm a Spotify user.",
   }).then(() => {

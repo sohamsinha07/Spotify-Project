@@ -14,14 +14,16 @@ function Login() {
       fetch(`https://test-spotify-site.local:5050/api/user/${userId}`)
         .then(res => res.json())
         .then(data => {
-          localStorage.setItem("currentUserId", data.spotifyId);
-          navigate("/home");
+          localStorage.setItem("currentUserId", userId);
+          localStorage.setItem("currentUserProfilePicture", data.profilePictureUrl || '/avatar.png');
+          window.location.href = '/home';
         })
         .catch(err => {
           console.error("Failed to fetch user data:", err);
         });
     }
   }, [navigate, location]);
+
 
   return (
     <div className="login-container">

@@ -24,6 +24,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .profile-picture {
@@ -57,7 +58,7 @@
 }
 
 .forum-rectangle {
-  width: 100%;
+  max-width: 100%;
   min-height: 150px;
   background-color: #121212;
   border-radius: 8px;

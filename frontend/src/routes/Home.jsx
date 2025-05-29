@@ -7,10 +7,11 @@ const Home = () => {
   const [forums, setForums] = useState([]);
   const navigate = useNavigate();
 
+  const currentUserId = localStorage.getItem("currentUserId");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch from updated backend endpoint
         const response = await fetch('https://test-spotify-site.local:5050/api/forum/all', {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' }
@@ -43,25 +44,31 @@ const Home = () => {
     fetchData();
   }, []);
 
+  const filteredUsers = users.filter(user => user.id !== currentUserId);
+
   return (
     <div className="home-container">
       <h1>Suggested Users</h1>
       <div className="horizontal-scroll">
-        {users.map(user => (
-          <div
-            key={user.id}
-            className="user-square"
-            onClick={() => navigate(`/user/${user.id}`)}
-            style={{ cursor: 'pointer' }}
-          >
-            <img
-              src={user.profilePicture || '/avatar.png'}
-              alt={user.username}
-              className="profile-picture"
-            />
-            <p className="username-ellipsis">{user.username}</p>
-          </div>
-        ))}
+        {filteredUsers.length > 0 ? (
+          filteredUsers.map(user => (
+            <div
+              key={user.id}
+              className="user-square"
+              onClick={() => navigate(`/user/${user.id}`)}
+              style={{ cursor: 'pointer' }}
+            >
+              <img
+                src={user.profilePicture || '/avatar.png'}
+                alt={user.username}
+                className="profile-picture"
+              />
+              <p className="username-ellipsis">{user.username}</p>
+            </div>
+          ))
+        ) : (
+          <p>Loading users...</p>
+        )}
       </div>
 
       <h1>Top Discussions</h1>
