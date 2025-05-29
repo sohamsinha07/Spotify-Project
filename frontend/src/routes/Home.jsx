@@ -18,7 +18,8 @@ const Home = () => {
         const userList = userSnapshot.docs.map(doc => ({
           id: doc.id,
           username: doc.data().username,
-          profilePicture: doc.data().profilePictureUrl
+          profilePicture: doc.data().profilePictureUrl,
+          isPrivate: doc.data().isPrivate
         }));
 
         // Fetch forums
@@ -54,20 +55,22 @@ const Home = () => {
     <div className="home-container">
       <h1>Suggested Users</h1>
       <div className="horizontal-scroll">
-        {users.map(user => (
-          <div 
-            key={user.id} 
-            className="user-square"
-            onClick={() => navigate(`/user/${user.id}`)}  // navigate to user profile on click
-            style={{ cursor: 'pointer' }}  // add pointer cursor
+        {users
+          .filter(user => user.isPrivate === false) 
+          .map(user => (
+            <div 
+              key={user.id} 
+              className="user-square"
+              onClick={() => navigate(`/user/${user.id}`)}  
+              style={{ cursor: 'pointer' }}
             >
-            <img 
-              src={user.profilePicture || '/avatar.png'} 
-              alt={user.username} 
-              className="profile-picture" 
-            />
-            <p className="username-ellipsis">{user.username}</p>
-          </div>
+              <img 
+                src={user.profilePicture || '/avatar.png'} 
+                alt={user.username} 
+                className="profile-picture" 
+              />
+              <p className="username-ellipsis">{user.username}</p>
+            </div>
         ))}
       </div>
 
