@@ -95,14 +95,14 @@
 }
 
 .message.sent {
-  background-color: #1db954;
-  align-self: flex-start;
+  background-color: #eee;
+  align-self: flex-end;
   color: black;
 }
 
 .message.received {
-  background-color: #eee;
-  align-self: flex-end;
+  background-color: #1db954;
+  align-self: flex-start;
   color: black;
 }
 
@@ -193,3 +193,13 @@
   cursor: pointer;
 }
 
+.delete-icon {
+  float: right;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.2s;
+}
+
+.user-item:hover .delete-icon {
+  color: red;
+}

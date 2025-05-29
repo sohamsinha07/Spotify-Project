@@ -95,6 +95,25 @@ router.get("/users", async (req, res) => {
   }
 });
 
+router.delete("/delete-chat", async (req, res) => {
+  const { user1, user2 } = req.body;
+
+  try {
+    const participants = [user1, user2].sort();
+    const snapshot = await db.collection("chat").where("participants", "==", participants).get();
+
+    if (!snapshot.empty) {
+      const chatId = snapshot.docs[0].id;
+      await db.collection("chat").doc(chatId).delete();
+      res.status(200).send("Chat deleted");
+    } else {
+      res.status(404).send("Chat not found");
+    }
+  } catch (err) {
+    console.error("Failed to delete chat", err);
+    res.status(500).send("Failed to delete chat");
+  }
+});
 
 
 module.exports = router;
