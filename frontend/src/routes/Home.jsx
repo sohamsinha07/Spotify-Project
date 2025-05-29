@@ -71,7 +71,7 @@ const Home = () => {
         ))}
       </div>
 
-      <h1>Top Discussions</h1>
+      <h1>Trending Discussions</h1>
       {forums.length > 0 ? (
         forums.map(forum => (
           <div key={forum.id} className="forum-rectangle">
