@@ -4,7 +4,6 @@
     display: flex;
     background-color: var(--secondary-background);
     color: var(--text-color);
-    overflow: hidden;
     height: 91vh;
   }
   

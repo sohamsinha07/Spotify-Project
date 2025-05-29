@@ -14,6 +14,8 @@ const UserProfile = () => {
   const [filters, setFilters] = useState({ liked: "All Time", artists: "All Time", songs: "All Time" });
   const [activeModal, setActiveModal] = useState(null);
 
+  const currentUserId = localStorage.getItem("currentUserId");
+
   // Get logged-in user ID from localStorage
   const storedUserId = localStorage.getItem("currentUserId");
   const userId = urlUserId || storedUserId;
@@ -56,9 +58,11 @@ const UserProfile = () => {
 
       <div className="user-profile-container">
         <aside className="profileSidebar">
-          <Link to={`/profileEdit/${userId}`}>
-            <FaEdit className="edit-icon" />
-          </Link>
+          {currentUserId === userId && (
+            <Link to={`/profileEdit/${userId}`}>
+              <FaEdit className="edit-icon" />
+            </Link>
+          )}
 
           <div className="avatar-container">
             {userData.profilePictureUrl ? (

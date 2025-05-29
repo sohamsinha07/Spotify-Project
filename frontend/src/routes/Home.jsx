@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import '../styles/Home.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { collection, getDocs } from "firebase/firestore";
-import { db } from '../firebase';  // Make sure this is the correct path to your Firebase config
-
-
+import { db } from '../firebase';  // Ensure correct path
+import LikeButton from '../components/Likes';  // If missing
+import Posts from '../components/Posts';  // If missing
 
 const Home = () => {
   const [users, setUsers] = useState([]);
@@ -18,14 +18,13 @@ const Home = () => {
     const urlParams = new URLSearchParams(location.search);
     const userIdFromUrl = urlParams.get("userId");
 
-    // If userId is present in the URL but not in localStorage, fetch user data and set it
     if (userIdFromUrl && !currentUserId) {
       fetch(`https://test-spotify-site.local:5050/api/user/${userIdFromUrl}`)
         .then(res => res.json())
         .then(data => {
           localStorage.setItem("currentUserId", userIdFromUrl);
           localStorage.setItem("currentUserProfilePicture", data.profilePictureUrl || '/avatar.png');
-          window.location.href = '/home';  // Optional: Clean the URL
+          window.location.href = '/home';  // Clean URL
         })
         .catch(err => {
           console.error("Failed to fetch user data:", err);
@@ -36,7 +35,6 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch users (Firebase example)
         const usersCollection = collection(db, 'users');
         const userSnapshot = await getDocs(usersCollection);
         const userList = userSnapshot.docs.map(doc => ({
@@ -46,22 +44,18 @@ const Home = () => {
           isPrivate: doc.data().isPrivate
         }));
 
-        // Fetch forums (Firebase example)
         const forumsCollection = collection(db, 'forums');
         const forumSnapshot = await getDocs(forumsCollection);
         const forumList = forumSnapshot.docs.map(doc => {
           const data = doc.data();
-          const user = userList.find(u => u.id === data.creatorId);
           return {
             id: doc.id,
             name: data.name,
             description: data.description,
             likes: data.likes,
-            creator: user ? {
-              id: user.id,
-              username: user.username,
-              profilePicture: user.profilePicture
-            } : null
+            commentCount: data.commentCount,
+            createdAt: data.createdAt,
+            creatorId: data.creatorId
           };
         });
 
@@ -76,6 +70,27 @@ const Home = () => {
   }, []);
 
   const filteredUsers = users.filter(user => user.id !== currentUserId);
+
+  // Build usersMap from users
+  const usersMap = users.reduce((map, user) => {
+    map[user.id] = user;
+    return map;
+  }, {});
+
+  // Sort forums by likes
+  const topLikedForums = [...forums].sort((a, b) => (b.likes || 0) - (a.likes || 0)).slice(0, 5);
+
+  // Format date
+  const formatDate = (timestamp) => {
+    if (!timestamp) return "Unknown date";
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+  };
+
+  // Handle forum click
+  const handleForumClick = (id) => {
+    navigate(`/forum/${id}`);
+  };
 
   return (
     <div className="home-container">
@@ -104,26 +119,35 @@ const Home = () => {
 
       <h1>Trending Discussions</h1>
       {forums.length > 0 ? (
-        forums.map(forum => (
-          <div key={forum.id} className="forum-rectangle">
-            <div className="forum-content">
-              {forum.creator && (
-                <img
-                  src={forum.creator.profilePicture || '/avatar.png'}
-                  alt={forum.creator.username}
-                  className="creator-pic"
-                  onClick={() => navigate(`/user/${forum.creator.id}`)}
-                  style={{ cursor: 'pointer' }}
-                />
-              )}
-              <div className="forum-text">
-                {forum.creator && <h3 className="forum-username">{forum.creator.username}</h3>}
-                <h2>{forum.name}</h2>
-                <p>{forum.description}</p>
-              </div>
-            </div>
+        <div className="home-forum-section">
+          <div className="forum-home-container">
+            {topLikedForums.map(({ id, name, description, creatorId, likes = 0, commentCount = 0, createdAt }) => {
+              const creator = usersMap[creatorId];
+              return (
+                <div
+                  key={id}
+                  className="forum-card"
+                  onClick={() => handleForumClick(id)}
+                >
+                  <div className="forum-header">
+                    <h3 className="forum-name">{name}</h3>
+                  </div>
+                  <p className="forum-description">{description}</p>
+                  <div className="forum-badges">
+                    <LikeButton forumId={id} initialLikes={likes} />
+                    <Posts forumId={id} initialCount={commentCount} />
+                  </div>
+                  <div className="forum-meta">
+                    <span className="forum-creator">
+                      Created by <strong>{creator?.username || "Unknown"}</strong>
+                    </span>
+                    <span className="forum-date">{formatDate(createdAt)}</span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        ))
+        </div>
       ) : (
         <p>Loading forum posts...</p>
       )}
