@@ -84,12 +84,24 @@ const UserProfile = () => {
                 <button className="icon-button" onClick={() => setActiveModal('liked')}><FaListUl /></button>
               </div>
             </div>
-            {resolvedLikedSongs.length > 0 ? resolvedLikedSongs.map(song => (
-              <div key={song.id} className="list-item">
-                <div className="list-avatar"><FaMusic /></div>
-                <span>{song.title} <span style={{ color: 'gray' }}>by: {song.artist}</span></span>
-              </div>
-            )) : <p>No liked songs available.</p>}
+            {resolvedLikedSongs.length > 0 ? (
+              resolvedLikedSongs.map((song) => (
+                <div key={song.id} className="list-item">
+                  <div className="list-avatar">
+                    {song.imageUrl ? (
+                      <img src={song.imageUrl} alt="Artist Avatar" className="avatar-img" />
+                    ) : (
+                      <FaMusic />
+                    )}
+                  </div>
+                  <span>
+                    {song.title} <span style={{ color: 'gray' }}>by: {song.artist}</span>
+                  </span>
+                </div>
+              ))
+            ) : (
+              <p>No liked songs available.</p>
+            )}
           </div>
 
           {/* Top Artists */}
@@ -101,12 +113,22 @@ const UserProfile = () => {
                 <button className="icon-button" onClick={() => setActiveModal('artists')}><FaListUl /></button>
               </div>
             </div>
-            {resolvedTopArtists.length > 0 ? resolvedTopArtists.map(artist => (
-              <div key={artist.id} className="list-item">
-                <div className="list-avatar"><FaMusic /></div>
-                <span>{artist.name}</span>
-              </div>
-            )) : <p>No top artists available.</p>}
+            {resolvedTopArtists.length > 0 ? (
+              resolvedTopArtists.map((artist) => (
+                <div key={artist.id} className="list-item"> 
+                <div className="list-avatar">
+                  {artist.imageUrl ? (
+                    <img src={artist.imageUrl} alt="Artist Avatar" className="avatar-img" />
+                  ) : (
+                    <FaMusic />
+                  )}
+                </div>
+                  <span>{artist.name}</span>
+                </div>
+              ))
+            ) : (
+              <p>No top artists available.</p>
+            )}
           </div>
 
           {/* Top Songs */}
@@ -118,12 +140,25 @@ const UserProfile = () => {
                 <button className="icon-button" onClick={() => setActiveModal('songs')}><FaListUl /></button>
               </div>
             </div>
-            {resolvedTopSongs.length > 0 ? resolvedTopSongs.map(song => (
-              <div key={song.id} className="list-item">
-                <div className="list-avatar"><FaMusic /></div>
-                <span>{song.title} <span style={{ color: 'gray' }}>by: {song.artist}</span></span>
-              </div>
-            )) : <p>No top songs available.</p>}
+
+            {resolvedTopSongs.length > 0 ? (
+              resolvedTopSongs.map((song) => (
+                <div key={song.id} className="list-item">
+                <div className="list-avatar">
+                  {song.imageUrl ? (
+                    <img src={song.imageUrl} alt="Song Avatar" className="avatar-img" />
+                  ) : (
+                    <FaMusic />
+                  )}
+                </div>
+                  <span>
+                    {song.title} <span style={{ color: 'gray' }}> by: {song.artist}</span>
+                  </span>
+                </div>
+              ))
+            ) : (
+              <p>No top songs available.</p>
+            )}
           </div>
         </main>
       </div>
