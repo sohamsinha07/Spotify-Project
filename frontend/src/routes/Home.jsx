@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Home.css';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { collection, getDocs } from "firebase/firestore";
+import { db } from '../firebase';  // Make sure this is the correct path to your Firebase config
+
+
 
 const Home = () => {
   const [users, setUsers] = useState([]);
@@ -32,7 +36,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch users
+        // Fetch users (Firebase example)
         const usersCollection = collection(db, 'users');
         const userSnapshot = await getDocs(usersCollection);
         const userList = userSnapshot.docs.map(doc => ({
@@ -42,7 +46,7 @@ const Home = () => {
           isPrivate: doc.data().isPrivate
         }));
 
-        // Fetch forums
+        // Fetch forums (Firebase example)
         const forumsCollection = collection(db, 'forums');
         const forumSnapshot = await getDocs(forumsCollection);
         const forumList = forumSnapshot.docs.map(doc => {
@@ -84,14 +88,6 @@ const Home = () => {
               className="user-square"
               onClick={() => navigate(`/user/${user.id}`)}
               style={{ cursor: 'pointer' }}
-        {users
-          .filter(user => user.isPrivate === false) 
-          .map(user => (
-            <div 
-              key={user.id} 
-              className="user-square"
-              onClick={() => navigate(`/user/${user.id}`)}  
-              style={{ cursor: 'pointer' }}
             >
               <img
                 src={user.profilePicture || '/avatar.png'}
@@ -104,14 +100,6 @@ const Home = () => {
         ) : (
           <p>Loading users...</p>
         )}
-              <img 
-                src={user.profilePicture || '/avatar.png'} 
-                alt={user.username} 
-                className="profile-picture" 
-              />
-              <p className="username-ellipsis">{user.username}</p>
-            </div>
-        ))}
       </div>
 
       <h1>Trending Discussions</h1>
