@@ -10,7 +10,7 @@ const UserProfile = () => {
   const [resolvedTopArtists, setResolvedTopArtists] = useState([]);
   const [resolvedTopSongs, setResolvedTopSongs] = useState([]);
   const [resolvedLikedSongs, setResolvedLikedSongs] = useState([]);
-  const { userId } = useParams();
+  const  {userId } = useParams();
   
   const [filters, setFilters] = useState({
     liked: "All Time", 
@@ -40,10 +40,13 @@ const UserProfile = () => {
         setUserData(false);
       }
     };
-
+    
     fetchUser();
   }, [userId]);
+  
 
+  
+  
   if (userData === false) return <p>User not found.</p>;
   if (!userData) return <p>Loading...</p>;
 
@@ -63,7 +66,7 @@ const UserProfile = () => {
       {/* Main profile layout */}
       <div className="user-profile-container">
         <aside className="profileSidebar">
-          <Link to="/profileEdit">
+          <Link to={`/profileEdit/${userData.id}`}>
             <FaEdit className="edit-icon" />
           </Link>
 
