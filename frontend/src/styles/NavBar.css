@@ -37,6 +37,10 @@
     color: #1DB954;
     font-weight: bold;
   }
+
+  .brand:hover {
+    color: #a5ebbe;
+  }
   
   .navbar-right {
     display: flex;
