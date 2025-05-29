@@ -241,7 +241,8 @@ const confirmDeleteChat = async () => {
         className="modal"
         overlayClassName="overlay"
       >
-        <h2>Add User to Chat</h2>
+        
+        <h2>Add User to Chat</h2> <button className="close-button" onClick={() => setModalIsOpen(false)}>×</button>
         <input
           type="text"
           placeholder="Enter username or user ID"
