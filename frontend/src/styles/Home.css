@@ -36,9 +36,13 @@
 
 .user-square p {
   margin: 0;
-  font-weight: bold;
+  padding: 0 15px;
+  white-space: nowrap;     
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  box-sizing: border-box;
 }
-
 
 .vertical-rectangle {
   width: 100%;

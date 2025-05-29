@@ -60,9 +60,13 @@ const Home = () => {
             className="user-square"
             onClick={() => navigate(`/user/${user.id}`)}  // navigate to user profile on click
             style={{ cursor: 'pointer' }}  // add pointer cursor
-          >
-            <img src={user.profilePicture} alt={user.username} className="profile-picture" />
-            <p>{user.username}</p>
+            >
+            <img 
+              src={user.profilePicture || '/avatar.png'} 
+              alt={user.username} 
+              className="profile-picture" 
+            />
+            <p className="username-ellipsis">{user.username}</p>
           </div>
         ))}
       </div>
@@ -73,13 +77,13 @@ const Home = () => {
           <div key={forum.id} className="forum-rectangle">
             <div className="forum-content">
              {forum.creator && (
-                <img
-                  src={forum.creator.profilePicture}
-                  alt={forum.creator.username}
-                  className="creator-pic"
-                  onClick={() => navigate(`/user/${forum.creator.id}`)}  // navigate to user profile on click
-                  style={{ cursor: 'pointer' }}  // add pointer cursor
-                />
+                 <img
+                    src={forum.creator.profilePicture || '/avatar.png'}
+                    alt={forum.creator.username}
+                    className="creator-pic"
+                    onClick={() => navigate(`/user/${forum.creator.id}`)}
+                    style={{ cursor: 'pointer' }}
+                  />
               )}
               <div className="forum-text">
                 {forum.creator && <h3 className="forum-username">{forum.creator.username}</h3>}
