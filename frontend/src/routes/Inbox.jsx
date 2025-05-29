@@ -250,6 +250,33 @@ const confirmDeleteChat = async () => {
         />
         <button onClick={handleAddUser}>Start Chat</button>
       </Modal>
+
+      {/* Delete Confirmation Modal */}
+<Modal
+  isOpen={showDeleteModal}
+  onRequestClose={() => {
+    setShowDeleteModal(false);
+    setUserToDelete(null);
+  }}
+  contentLabel="Confirm Delete Chat"
+  className="modal"
+  overlayClassName="overlay"
+>
+  <h2>Confirm Chat Deletion</h2>
+  <p>
+    Are you sure you want to delete the chat with <strong>{userToDelete}</strong>? <br />
+    <span style={{ color: "red" }}>This action cannot be undone and all messages will be permanently deleted.</span>
+  </p>
+  <div style={{ marginTop: "20px", display: "flex", justifyContent: "space-between" }}>
+    <button onClick={confirmDeleteChat} style={{ backgroundColor: "#e53935", color: "#fff", padding: "8px 16px" }}>
+      Yes, Delete
+    </button>
+    <button onClick={() => setShowDeleteModal(false)} style={{ padding: "8px 16px" }}>
+      Cancel
+    </button>
+  </div>
+</Modal>
+
     </div>
   );
 }

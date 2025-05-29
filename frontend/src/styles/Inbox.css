@@ -203,3 +203,9 @@
 .user-item:hover .delete-icon {
   color: red;
 }
+.modal button {
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}

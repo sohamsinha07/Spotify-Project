@@ -1,4 +1,4 @@
-const db = require("../firebase");
+const db = require("../firebaseAdmin");
 const express = require('express');
 // const cors = require('cors');
 const admin = require('firebase-admin');
