@@ -17,7 +17,7 @@ import {
 import { db } from "../firebase";
 import axios from "axios";
 
-const BACKEND_URL = "http://localhost:5050"
+const BACKEND_URL = "https://test-spotify-site.local:5050/inbox";
 
 Modal.setAppElement("#root");
 
@@ -96,9 +96,17 @@ export default function Inbox() {
 
   useEffect(() => {
     const loadUsers = async () => {
-      const querySnapshot = await getDocs(collection(db, "users"));
+      {/* const querySnapshot = await getDocs(collection(db, "users"));
       const userList = querySnapshot.docs.map((doc) => doc.id).filter((id) => id !== currentUserId);
       setUsers(userList);
+      */}
+      try {
+        await axios.get(`${BACKEND_URL}/users`)
+      }
+      catch(error){
+        console.error(error);
+      }
+
     };
     loadUsers();
   }, []);

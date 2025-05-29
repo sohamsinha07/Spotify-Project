@@ -10,6 +10,9 @@ const port = 5050;
 app.use(express.json());
 app.use(cors());
 
+const inboxRouter = require("./server/inbox");
+app.use("/inbox", inboxRouter);
+
 const loginRouter = require("./server/login");
 app.use("/login", loginRouter);
 
