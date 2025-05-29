@@ -144,23 +144,24 @@ const confirmDeleteChat = async () => {
       },
     });
 
-    const response = await axios.get(`${BACKEND_URL}/users`);
-    const filtered = response.data.filter((u) => u !== currentUserId);
-    setUsers(filtered);
+    // Remove user from sidebar list
+    setUsers((prev) => prev.filter((u) => u !== userToDelete));
 
-    // Clear chat if it's the one being viewed
+    // Clear chat view if deleted user is selected
     if (selectedUser === userToDelete) {
       setSelectedUser(null);
       setMessages([]);
       localStorage.removeItem("selectedUser");
     }
 
-    setShowDeleteModal(false);
+    // Cleanup
     setUserToDelete(null);
+    setShowDeleteModal(false);
   } catch (err) {
     console.error("Failed to delete chat", err);
   }
 };
+
 
 
 
@@ -173,13 +174,31 @@ const confirmDeleteChat = async () => {
           <h2>Inbox</h2>
           <button onClick={() => setModalIsOpen(true)} className="add-user-btn">+ New Chat</button>
           <div className="user-list">
-            {users.map((user) => (
+            {/* {users.map((user) => (
               <div
                 key={user}
                 className={`user-item ${user === selectedUser ? "active" : ""}`}
                 onClick={() => setSelectedUser(user)}
               >
                 {user}
+              </div>
+            ))}
+            */}
+            {users.map((user) => (
+              <div
+                key={user}
+                className={`user-item ${user === selectedUser ? "active" : ""}`}
+              >
+                <span onClick={() => setSelectedUser(user)} style={{ flex: 1 }}>
+                  {user}
+                </span>
+                <FaTrashAlt
+                  className="delete-icon"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteChat(user);
+                  }}
+                />
               </div>
             ))}
           </div>
