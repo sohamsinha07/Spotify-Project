@@ -38,6 +38,9 @@ export default function Inbox() {
 
   const currentUserId = "demoUser1"; // Simulate logged-in user
 
+  
+
+
   // Load chats on user select
   useEffect(() => {
   if (!selectedUser) return;
@@ -88,25 +91,34 @@ const handleAddUser = async () => {
   const userId = newUserInput.trim();
 
   try {
-    // 1. Add user in backend
     await axios.post(`${BACKEND_URL}/add-user`, { userId });
 
-    // 2. Refetch updated users list
-    const updatedUsers = await axios.get(`${BACKEND_URL}/users`);
-    const filtered = updatedUsers.data.filter((u) => u !== currentUserId);
+    const res = await axios.get(`${BACKEND_URL}/users-full`);
+    const allUsers = res.data;
+
+    const map = {};
+    allUsers.forEach(user => {
+      map[user.id] = user.username;
+    });
+    setUserMap(map);
+
+    const filtered = allUsers
+      .filter((u) => u.id !== currentUserId)
+      .map((u) => u.id);
     setUsers(filtered);
 
-    // 3. Select the new user and store in localStorage
     setSelectedUser(userId);
     localStorage.setItem("selectedUser", userId);
 
-    // 4. Cleanup
     setNewUserInput("");
     setModalIsOpen(false);
   } catch (err) {
     console.error("Add user failed", err);
+    alert("This user does not exist. Please enter a valid user ID.");
   }
 };
+
+
 
 
 useEffect(() => {
@@ -176,7 +188,6 @@ const confirmDeleteChat = async () => {
 
 
 
-
   return (
     <div className="inbox-container">
       <div className="navbar-placeholder" />
@@ -207,7 +218,14 @@ const confirmDeleteChat = async () => {
 
         <div className="chat-box">
         <h2 className="chat-header">
-          {selectedUser ? `Chat with ${userMap[selectedUser] || selectedUser}` : "No Chat Selected"}
+          {/* {selectedUser ? `Chat with ${userMap[selectedUser] || selectedUser}` : "No Chat Selected"} */}
+          <h2 className="chat-header">
+            {selectedUser
+              ? userMap[selectedUser]
+                ? `Chat with ${userMap[selectedUser]}`
+                : "Loading username..."
+              : "No Chat Selected"}
+          </h2>
         </h2>
           <div className="messages">
           {messages.map((msg, idx) => (
