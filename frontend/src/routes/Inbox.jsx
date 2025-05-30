@@ -36,7 +36,8 @@ export default function Inbox() {
   const [userMap, setUserMap] = useState({});
 
 
-  const currentUserId = "demoUser1"; // Simulate logged-in user
+  const currentUserId = localStorage.getItem("currentUserId");
+  const currentUsername = userMap[currentUserId] || currentUserId;
 
   
 
@@ -293,7 +294,7 @@ const confirmDeleteChat = async () => {
       >
         <h2>Confirm Chat Deletion</h2>
         <p>
-          Are you sure you want to delete the chat with <strong>{userToDelete}</strong>? <br />
+          Are you sure you want to delete the chat with <strong>{userMap[userToDelete] || userToDelete}</strong>? <br />
           <span style={{ color: "red" }}>This action cannot be undone and all messages will be permanently deleted.</span>
         </p>
         <div style={{ marginTop: "20px", display: "flex", justifyContent: "space-between" }}>
@@ -304,15 +305,6 @@ const confirmDeleteChat = async () => {
             Cancel
           </button>
         </div>
-        
-        <h2>Add User to Chat</h2> <button className="close-button" onClick={() => setModalIsOpen(false)}>×</button>
-        <input
-          type="text"
-          placeholder="Enter username or user ID"
-          value={newUserInput}
-          onChange={(e) => setNewUserInput(e.target.value)}
-        />
-        <button onClick={handleAddUser}>Start Chat</button>
       </Modal>
 
     </div>
