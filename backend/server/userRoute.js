@@ -1,6 +1,6 @@
 const express = require("express");
-const { db } = require("../firebaseAdmin");
-
+const admin = require("firebase-admin");
+const db = admin.firestore();
 const router = express.Router();
 
 const fetchSongDataByIds = async (ids) => {
@@ -65,8 +65,11 @@ router.get('/:userId', async (req, res) => {
       fetchArtistDataByIds(user.topArtists)
     ]);
 
+    const profilePictureUrl = user.profilePictureUrl || (user.images && user.images[0]?.url) || '/avatar.png';
+
     res.json({
       ...user,
+      profilePictureUrl,
       likedSongs: likedSongsData,
       topSongs: topSongsData,
       topArtists: topArtistsData 

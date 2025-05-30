@@ -1,3 +1,5 @@
+@import 'forum.css';
+
 .home-container {
   padding: 1rem;
 }
@@ -24,6 +26,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .profile-picture {
@@ -56,8 +59,8 @@
   display: none;
 }
 
-.forum-rectangle {
-  width: 100%;
+.home-forum-section .forum-card {
+  width: 96%; /* wider box */
   min-height: 150px;
   background-color: #121212;
   border-radius: 8px;
@@ -67,7 +70,9 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
+  margin-right: 1rem;
 }
+
 
 .forum-content {
   display: flex;

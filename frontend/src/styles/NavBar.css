@@ -1,7 +1,7 @@
 @import '../index.css';
 
 .navbar {
-    width: 100vw;
+    width: 100%;
     position: sticky;
     top: 0;
     z-index: 999;
@@ -37,19 +37,36 @@
     color: #1DB954;
     font-weight: bold;
   }
+
+  .brand:hover {
+    color: #a5ebbe;
+  }
   
   .navbar-right {
     display: flex;
-    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
     font-size: 1.5rem;
   }
   
   .navbar-right a {
     color: white;
     transition: color 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .navbar-right a:hover {
     color: #1DB954;
   }
   
+  .navbar-profile-pic {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  box-sizing: border-box;
+  }

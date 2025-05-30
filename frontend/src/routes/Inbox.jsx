@@ -33,6 +33,7 @@ export default function Inbox() {
   const [newUserInput, setNewUserInput] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const [userMap, setUserMap] = useState({});
 
 
   const currentUserId = "demoUser1"; // Simulate logged-in user
@@ -111,11 +112,22 @@ const handleAddUser = async () => {
 useEffect(() => {
   const loadUsers = async () => {
     try {
-      const response = await axios.get(`${BACKEND_URL}/users`);
-      const filtered = response.data.filter((u) => u !== currentUserId);
+      const response = await axios.get(`${BACKEND_URL}/users-full`); // new endpoint returning full user objects
+      const allUsers = response.data;
+  
+      // Create ID → username map
+      const map = {};
+      allUsers.forEach(user => {
+        map[user.id] = user.username;
+      });
+  
+      setUserMap(map);
+  
+      const filtered = allUsers
+        .filter((u) => u.id !== currentUserId)
+        .map(u => u.id); // list of userIds only
       setUsers(filtered);
-
-      // Restore previous chat if available
+  
       const saved = localStorage.getItem("selectedUser");
       if (saved && filtered.includes(saved)) {
         setSelectedUser(saved);
@@ -174,47 +186,41 @@ const confirmDeleteChat = async () => {
           <h2>Inbox</h2>
           <button onClick={() => setModalIsOpen(true)} className="add-user-btn">+ New Chat</button>
           <div className="user-list">
-            {/* {users.map((user) => (
-              <div
-                key={user}
-                className={`user-item ${user === selectedUser ? "active" : ""}`}
-                onClick={() => setSelectedUser(user)}
-              >
-                {user}
-              </div>
-            ))}
-            */}
-            {users.map((user) => (
-              <div
-                key={user}
-                className={`user-item ${user === selectedUser ? "active" : ""}`}
-              >
-                <span onClick={() => setSelectedUser(user)} style={{ flex: 1 }}>
-                  {user}
-                </span>
-                <FaTrashAlt
-                  className="delete-icon"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteChat(user);
-                  }}
-                />
-              </div>
-            ))}
+          {users.map((user) => (
+            <div
+              key={user}
+              className={`user-item ${user === selectedUser ? "active" : ""}`}
+              onClick={() => setSelectedUser(user)}
+            >
+              <span style={{ flex: 1 }}>{userMap[user] || user}</span>
+              <FaTrashAlt
+                className="delete-icon"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteChat(user);
+                }}
+              />
+            </div>
+          ))}
           </div>
         </div>
 
         <div className="chat-box">
-          <h2 className="chat-header">{selectedUser || "No Chat Selected"}</h2>
+        <h2 className="chat-header">
+          {selectedUser ? `Chat with ${userMap[selectedUser] || selectedUser}` : "No Chat Selected"}
+        </h2>
           <div className="messages">
-            {messages.map((msg, idx) => (
-              <div
-                key={idx}
-                className={`message ${msg.senderId === currentUserId ? "sent" : "received"}`}
-              >
-                {msg.text}
-              </div>
-            ))}
+          {messages.map((msg, idx) => (
+            <div
+              key={idx}
+              className={`message ${msg.senderId === currentUserId ? "sent" : "received"}`}
+            >
+                <strong className={msg.senderId === currentUserId ? "me" : "other"}>
+                  {`${userMap[msg.senderId] || msg.senderId}:`}
+                </strong>
+              <div>{msg.text}</div>
+            </div>
+          ))}
           </div>
 
           {selectedUser && (
@@ -235,12 +241,51 @@ const confirmDeleteChat = async () => {
 
       {/* Modal */}
       <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setModalIsOpen(false)}
-        contentLabel="Add New User"
+          isOpen={modalIsOpen}
+          onRequestClose={() => setModalIsOpen(false)}
+          contentLabel="Add New User"
+          className="modal"
+          overlayClassName="overlay"
+        >
+          <div className="modal-header">
+            <h2>Add User to Chat</h2>
+            <button className="modal-close" onClick={() => setModalIsOpen(false)}>×</button>
+          </div>
+
+          <input
+            type="text"
+            placeholder="Enter username or user ID"
+            value={newUserInput}
+            onChange={(e) => setNewUserInput(e.target.value)}
+          />
+
+          <button className="modal-submit" onClick={handleAddUser}>Start Chat</button>
+        </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        isOpen={showDeleteModal}
+        onRequestClose={() => {
+          setShowDeleteModal(false);
+          setUserToDelete(null);
+        }}
+        contentLabel="Confirm Delete Chat"
         className="modal"
         overlayClassName="overlay"
       >
+        <h2>Confirm Chat Deletion</h2>
+        <p>
+          Are you sure you want to delete the chat with <strong>{userToDelete}</strong>? <br />
+          <span style={{ color: "red" }}>This action cannot be undone and all messages will be permanently deleted.</span>
+        </p>
+        <div style={{ marginTop: "20px", display: "flex", justifyContent: "space-between" }}>
+          <button onClick={confirmDeleteChat} style={{ backgroundColor: "#e53935", color: "#fff", padding: "8px 16px" }}>
+            Yes, Delete
+          </button>
+          <button onClick={() => setShowDeleteModal(false)} style={{ padding: "8px 16px" }}>
+            Cancel
+          </button>
+        </div>
         
         <h2>Add User to Chat</h2> <button className="close-button" onClick={() => setModalIsOpen(false)}>×</button>
         <input
@@ -251,32 +296,6 @@ const confirmDeleteChat = async () => {
         />
         <button onClick={handleAddUser}>Start Chat</button>
       </Modal>
-
-      {/* Delete Confirmation Modal */}
-<Modal
-  isOpen={showDeleteModal}
-  onRequestClose={() => {
-    setShowDeleteModal(false);
-    setUserToDelete(null);
-  }}
-  contentLabel="Confirm Delete Chat"
-  className="modal"
-  overlayClassName="overlay"
->
-  <h2>Confirm Chat Deletion</h2>
-  <p>
-    Are you sure you want to delete the chat with <strong>{userToDelete}</strong>? <br />
-    <span style={{ color: "red" }}>This action cannot be undone and all messages will be permanently deleted.</span>
-  </p>
-  <div style={{ marginTop: "20px", display: "flex", justifyContent: "space-between" }}>
-    <button onClick={confirmDeleteChat} style={{ backgroundColor: "#e53935", color: "#fff", padding: "8px 16px" }}>
-      Yes, Delete
-    </button>
-    <button onClick={() => setShowDeleteModal(false)} style={{ padding: "8px 16px" }}>
-      Cancel
-    </button>
-  </div>
-</Modal>
 
     </div>
   );

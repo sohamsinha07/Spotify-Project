@@ -1,0 +1,95 @@
+.forum-list-container {
+    padding: 20px;
+    max-width: 1500px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    cursor: pointer;
+}
+
+.forum-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.forum-card {
+    padding-top: 5px;
+    margin-top: 10px;
+    margin-left: 20px;
+    background: #121212;
+    color: white;
+    border-radius: 8px;
+    padding: 10px;
+    width: 95%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: "pointer";
+
+}
+
+.forum-name {
+    font-size: 25px;
+    margin-bottom: 3px;
+    color: #17a44c;
+    padding: 2px
+}
+
+.forum-description {
+    font-size: 18px;
+    margin-bottom: 5px;
+    min-height: 60px;
+    padding: 2px
+}
+
+.forum-creator,
+.forum-likes {
+    font-size: 0.85rem;
+    opacity: 1;
+    margin-bottom: 8px;
+    padding: 2px
+}
+
+.forum-view-button {
+    align-self: flex-start;
+    background-color: #1db954;
+    border: none;
+    padding: 8px 12px;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.forum-view-button:hover {
+    background-color: #17a44c;
+}
+
+.no-forums {
+    color: white;
+}
+
+.forum-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #7c7979;
+    margin-top: 8px;
+}
+
+.forum-title {
+    color: white;
+    margin-left: 25px;
+    font-size: 40px;
+}
+
+.forum-badges {
+    gap: 20px;
+    align-items: center;
+    display: flex;
+}

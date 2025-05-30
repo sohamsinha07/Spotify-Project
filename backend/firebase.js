@@ -1,11 +1,17 @@
-var admin = require("firebase-admin");
+// firebase.js
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
-var serviceAccount = require("./serviceAccountKey.json");
+const firebaseConfig = {
+  apiKey: "your-api-key",
+  authDomain: "your-auth-domain",
+  projectId: "your-project-id",
+  storageBucket: "your-storage-bucket",
+  messagingSenderId: "your-sender-id",
+  appId: "your-app-id"
+};
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);  // Initialize Firestore
 
-const db = admin.firestore();
-module.exports = db;
-
+export { db };

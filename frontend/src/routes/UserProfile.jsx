@@ -14,6 +14,8 @@ const UserProfile = () => {
   const [filters, setFilters] = useState({ liked: "All Time", artists: "All Time", songs: "All Time" });
   const [activeModal, setActiveModal] = useState(null);
 
+  const currentUserId = localStorage.getItem("currentUserId");
+
   // Get logged-in user ID from localStorage
   const storedUserId = localStorage.getItem("currentUserId");
   const userId = urlUserId || storedUserId;
@@ -56,9 +58,11 @@ const UserProfile = () => {
 
       <div className="user-profile-container">
         <aside className="profileSidebar">
-          <Link to={`/profileEdit/${userId}`}>
-            <FaEdit className="edit-icon" />
-          </Link>
+          {currentUserId === userId && (
+            <Link to={`/profileEdit/${userId}`}>
+              <FaEdit className="edit-icon" />
+            </Link>
+          )}
 
           <div className="avatar-container">
             {userData.profilePictureUrl ? (
@@ -71,7 +75,7 @@ const UserProfile = () => {
           <h2 className="username">{userData.username}</h2>
           <hr className="divider" />
           <p className="bio">{userData.bio}</p>
-          <Link to="/inbox"><FaEnvelope className="email-icon" /></Link>
+          {/* <Link to="/inbox"><FaEnvelope className="email-icon" /></Link> */}
         </aside>
 
         <main className="main-content">
@@ -79,10 +83,10 @@ const UserProfile = () => {
           <div className="section">
             <div className="section-header">
               <h3>{userData.username}'s Liked Songs</h3>
-              <div className="filter-row">
+              {/* <div className="filter-row">
                 <p className="filter-label">Now Showing: {filters.liked}</p>
                 <button className="icon-button" onClick={() => setActiveModal('liked')}><FaListUl /></button>
-              </div>
+              </div> */}
             </div>
             {resolvedLikedSongs.length > 0 ? (
               resolvedLikedSongs.map((song) => (
@@ -108,10 +112,10 @@ const UserProfile = () => {
           <div className="section">
             <div className="section-header">
               <h3>{userData.username}'s Top Artists</h3>
-              <div className="filter-row">
+              {/* <div className="filter-row">
                 <p className="filter-label">Now Showing: {filters.artists}</p>
                 <button className="icon-button" onClick={() => setActiveModal('artists')}><FaListUl /></button>
-              </div>
+              </div> */}
             </div>
             {resolvedTopArtists.length > 0 ? (
               resolvedTopArtists.map((artist) => (
@@ -135,10 +139,10 @@ const UserProfile = () => {
           <div className="section">
             <div className="section-header">
               <h3>{userData.username}'s Top Songs</h3>
-              <div className="filter-row">
+              {/* <div className="filter-row">
                 <p className="filter-label">Now Showing: {filters.songs}</p>
                 <button className="icon-button" onClick={() => setActiveModal('songs')}><FaListUl /></button>
-              </div>
+              </div> */}
             </div>
 
             {resolvedTopSongs.length > 0 ? (

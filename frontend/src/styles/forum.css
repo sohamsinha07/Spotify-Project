@@ -1,0 +1,127 @@
+.forums-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  border-radius: 8px;
+}
+
+.forums-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.forum-search-input {
+  margin-left: 40px;
+  flex-grow: 1;
+  max-width: 80%;
+  padding: 14px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 20px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.forum-search-input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.6);
+}
+
+.add-forum-button {
+  margin-left: 5px;
+  padding: 10px 18px;
+  background-color: #0cc744;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.add-forum-button:hover {
+  background-color: #004e1b;
+}
+
+.create-forum-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 1rem;
+  width: 100%;
+  max-width: 450px;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.create-forum-form h3 {
+  margin: 0 0 10px;
+  font-weight: 700;
+  color: #222;
+  text-align: center;
+}
+
+.create-forum-form label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #555;
+}
+
+.create-forum-form input,
+.create-forum-form textarea {
+  height: 50px;
+  padding: 10px 12px;
+  border: 1.5px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.create-forum-form input:focus,
+.create-forum-form textarea:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.6);
+}
+
+.create-forum-form textarea {
+  min-height: 80px;
+  max-height: 150px;
+}
+
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.submit-button {
+  padding: 10px 18px;
+  font-weight: 600;
+  border-radius: 5px;
+  background-color: #00b740;
+  font-size: 1rem;
+  cursor: pointer;
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #046b38;
+
+}
+
+.forum-meta {
+  padding: 5px auto;
+  gap: 3rem;
+}
