@@ -16,6 +16,8 @@ app.use("/inbox", inboxRouter);
 
 const loginRouter = require("./server/login");
 const profileEditRouter = require('./server/profileEdit');
+const forumRoute = require('./server/forumRoute');
+app.use('/api/forum', forumRoute);
 app.use("/login", loginRouter);
 app.use("/api/user", userRoute);
 app.use('/api', profileEditRouter);
