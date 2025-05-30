@@ -36,7 +36,7 @@ export default function Inbox() {
   const [userMap, setUserMap] = useState({});
 
 
-  const currentUserId = "demoUser1"; // Simulate logged-in user
+  const currentUserId = "daunful"; // Simulate logged-in user
 
   
 
@@ -304,15 +304,6 @@ const confirmDeleteChat = async () => {
             Cancel
           </button>
         </div>
-        
-        <h2>Add User to Chat</h2> <button className="close-button" onClick={() => setModalIsOpen(false)}>×</button>
-        <input
-          type="text"
-          placeholder="Enter username or user ID"
-          value={newUserInput}
-          onChange={(e) => setNewUserInput(e.target.value)}
-        />
-        <button onClick={handleAddUser}>Start Chat</button>
       </Modal>
 
     </div>
