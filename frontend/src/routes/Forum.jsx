@@ -43,6 +43,7 @@ const Forum = () => {
     };
 
     //get the users
+
     const fetchUsers = async () => {
         try {
             const usersSnapshot = await getDocs(collection(db, "users"));

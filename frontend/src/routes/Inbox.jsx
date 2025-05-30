@@ -36,7 +36,8 @@ export default function Inbox() {
   const [userMap, setUserMap] = useState({});
 
 
-  const currentUserId = "daunful"; // Simulate logged-in user
+  const currentUserId = localStorage.getItem("currentUserId");
+  const currentUsername = userMap[currentUserId] || currentUserId;
 
   
 
@@ -117,9 +118,6 @@ const handleAddUser = async () => {
     alert("This user does not exist. Please enter a valid user ID.");
   }
 };
-
-
-
 
 useEffect(() => {
   const loadUsers = async () => {
@@ -293,7 +291,7 @@ const confirmDeleteChat = async () => {
       >
         <h2>Confirm Chat Deletion</h2>
         <p>
-          Are you sure you want to delete the chat with <strong>{userToDelete}</strong>? <br />
+          Are you sure you want to delete the chat with <strong>{userMap[userToDelete] || userToDelete}</strong>? <br />
           <span style={{ color: "red" }}>This action cannot be undone and all messages will be permanently deleted.</span>
         </p>
         <div style={{ marginTop: "20px", display: "flex", justifyContent: "space-between" }}>

@@ -47,41 +47,24 @@
     user-select: none;
 }
 
+.forum-like-button,
 .comment-count-display {
     display: inline-block;
-    padding: 6px 14px;
-    background-color: #c8c2c2;
-    border-radius: 20px;
+    padding: 8px 16px; /* Slightly more padding for rectangular look */
+    background-color: #212121; /* Updated background */
+    border-radius: 8px; /* Rounded corners */
     font-weight: 600;
     font-size: 0.9rem;
-    color: #333;
+    color: #ffffff; /* White text for readability */
     user-select: none;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.forum-like-button {
-    display: inline-block;
-    padding: 6px 14px;
-    background-color: #c8c2c2;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #333;
-    user-select: none;
-    cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.2s ease;
-}
-
-.forum-like-button:hover {
-    background-color: #ffbbbb;
-}
-
-
+.forum-like-button:hover,
 .comment-count-display:hover {
-    background-color: #ffbbbb;
+    background-color: #333333; /* Slightly lighter dark on hover */
+    color: #ffbbbb; /* Optional: Add a color pop on hover, or just keep it white */
 }
 
 
