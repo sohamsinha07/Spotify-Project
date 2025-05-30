@@ -2,23 +2,26 @@ import React, { useState } from 'react';
 import { doc, updateDoc, increment } from 'firebase/firestore';
 import { db } from '../firebase';
 
-/* handles the likes for the forum post and the comments post */
+// Add the formatNumber function here or import from utils.js
+const formatNumber = (num) => {
+    if (num >= 1000000) return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' M';
+    if (num >= 1000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + ' K';
+    return num.toString();
+};
 
 const LikeButton = ({ forumId, initialLikes, commentId }) => {
     const [likes, setLikes] = useState(initialLikes || 0);
     const [liked, setLiked] = useState(false);
 
     const handleLike = async () => {
-        if (liked) return; // Prevent double-liking as in real life
+        if (liked) return; // Prevent double-liking
 
         try {
             let docRef;
 
             if (commentId) {
-                // ability to like the comment in the forum
                 docRef = doc(db, 'forums', forumId, 'posts', commentId);
             } else {
-                // ability to like the forum post itself
                 docRef = doc(db, 'forums', forumId);
             }
 
@@ -26,7 +29,7 @@ const LikeButton = ({ forumId, initialLikes, commentId }) => {
                 likes: increment(1),
             });
 
-            setLikes(likes + 1); //increase likes
+            setLikes(likes + 1); // Increase local likes
             setLiked(true);
         } catch (error) {
             console.error("Error liking item:", error);
@@ -39,9 +42,10 @@ const LikeButton = ({ forumId, initialLikes, commentId }) => {
             className="forum-like-button"
             aria-label="Like this item"
         >
-            ❤️ {likes}
+            ❤️ {formatNumber(likes)}
         </button>
     );
 };
 
 export default LikeButton;
+export { formatNumber };

@@ -119,9 +119,6 @@ const handleAddUser = async () => {
   }
 };
 
-
-
-
 useEffect(() => {
   const loadUsers = async () => {
     try {

@@ -14,7 +14,7 @@ import {
 } from "firebase/firestore";
 
 import { db, auth } from "../firebase";
-import LikeButton from "../components/Likes";
+import LikeButton, { formatNumber } from "../components/Likes";
 import "../styles/forumDetails.css";
 
 /* this is going to help us so once we click the forum card, it should let view all the comments and we can like it too */
@@ -106,17 +106,17 @@ const ForumDetail = () => {
             <div className="forum-detail-card">
                 <h2>{forum.name}</h2>
                 <p className="forum-desc">{forum.description}</p>
-                <div className="stats-row">
-
-                    <LikeButton
-                        forumId={forumId}
-                        initialLikes={forum.likes ?? 0}
-                        className="forum-like-button"
-                    />
-                    <div className="comment-count-display" aria-label="Number of comments">
-                        💬 {comments.length}
+                    <div className="stats-row">
+                        <LikeButton
+                            forumId={forumId}
+                            initialLikes={forum.likes ?? 0}
+                            className="forum-like-button"
+                            formatNumber={formatNumber}  // Pass the formatter if needed
+                        />
+                        <div className="comment-count-display" aria-label="Number of comments">
+                            💬 {formatNumber(comments.length)}
+                        </div>
                     </div>
-                </div>
             </div>
 
             <form onSubmit={handleAddComment} className="new-comment-form">
