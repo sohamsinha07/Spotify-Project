@@ -19,12 +19,14 @@ import "../styles/forumDetails.css";
 
 /* this is going to help us so once we click the forum card, it should let view all the comments and we can like it too */
 
-const ForumDetail = () => {
+const ForumDetail = ({ usersMap }) => {
     const navigate = useNavigate();
     const { forumId } = useParams();
     const [forum, setForum] = useState(null);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
+    const [users, setUsers] = useState({});
+
 
     useEffect(() => {
         // forum changes anytime we made an update

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { db, auth } from "../firebase";
+import { db } from "../firebase";
 import {
     collection,
     getDocs,
@@ -14,16 +14,19 @@ import PopUpModal from "../components/PopUpModal"
 import "../styles/forum.css";
 
 
-/* this is the forums page where users can navigate to
+/* this is the forums page where users can navigate to a specific post and see the comments under those
 * You can see the forums list, the search bar and a add forum button */
 const Forum = () => {
+
     const [forums, setForums] = useState([]);
     const [usersMap, setUsersMap] = useState({});
     const [searchTerm, setSearchTerm] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newForumName, setNewForumName] = useState("");
     const [newForumDescription, setNewForumDescription] = useState("");
+    const [currentUser, setCurrentUser] = useState(null);
 
+    //get the forums
     const fetchForums = async () => {
         try {
             const forumsInFirebase = collection(db, "forums");
@@ -39,7 +42,7 @@ const Forum = () => {
         }
     };
 
-
+    //get the users
     const fetchUsers = async () => {
         try {
             const usersSnapshot = await getDocs(collection(db, "users"));
@@ -59,68 +62,52 @@ const Forum = () => {
         fetchUsers();
     }, []);
 
+    // read Spotify-login data from localStorage so it gives us the same person who logs in
+    useEffect(() => {
+        const spotifyUserId = localStorage.getItem("currentUserId");
+        const spotifyUserName = localStorage.getItem("currentUserName");
+        if (spotifyUserId) {
+            setCurrentUser({ uid: spotifyUserId, displayName: spotifyUserName });
+        }
+    }, []);
+
     //this is the search by name feature of forums
     const filteredForums = forums.filter((forum) =>
         forum.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    //getting a random user from collections
-    const getRandomUser = async () => {
-        const usersSnapshot = await getDocs(collection(db, "users"));
-        const users = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        if (users.length === 0) return null;
-
-        const randomIndex = Math.floor(Math.random() * users.length);
-        return users[randomIndex];
-    };
-
     //from here we can handle the form creation 
-
+    // from here we can handle the form creation 
     const handleCreateForum = async (e) => {
         e.preventDefault();
         if (!newForumName || !newForumDescription) return;
 
-        let creatorId, creatorName;
-
-        const current = auth.currentUser;
-        if (current) {
-            creatorId = current.uid;
-            creatorName =
-                current.displayName ||
-                current.providerData?.[0]?.displayName ||
-                'Anonymous';
-        } else {
-            const randomUser = await getRandomUser();
-            if (!randomUser) {
-                alert('No users  - please sign in first.');
-                return;
-            }
-            creatorId = randomUser.id;
-            creatorName =
-                randomUser.displayName ||
-                randomUser.username ||
-                'Anonymous';
+        if (!currentUser) {
+            alert("Please log in with Spotify first.");
+            return;
         }
 
+        const creatorId = currentUser.uid;
+        const creatorName = currentUser.displayName || "Anonymous";
+
         try {
-            await addDoc(collection(db, 'forums'), {
+            await addDoc(collection(db, "forums"), {
                 name: newForumName,
                 description: newForumDescription,
-                creatorId: creatorId,
+                creatorId,
                 createdAt: serverTimestamp(),
                 likes: 0,
                 commentCount: 0,
             });
 
-            setNewForumName('');
-            setNewForumDescription('');
+            setNewForumName("");
+            setNewForumDescription("");
             setIsModalOpen(false);
             fetchForums();
         } catch (err) {
-            console.error('Error creating forum:', err);
+            console.error("Error creating forum:", err);
         }
     };
-
 
     return (
         <div className="forums-container">
@@ -136,6 +123,7 @@ const Forum = () => {
                     + New Forum
                 </button>
             </div>
+
 
             <ForumList forums={filteredForums} usersMap={usersMap} />
             <PopUpModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>

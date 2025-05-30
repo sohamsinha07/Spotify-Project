@@ -42,7 +42,8 @@
     font-size: 18px;
     margin-bottom: 5px;
     min-height: 60px;
-    padding: 2px
+    padding: 2px;
+    margin: 0.5rem 0;
 }
 
 .forum-creator,
@@ -92,4 +93,44 @@
     gap: 20px;
     align-items: center;
     display: flex;
+}
+
+
+.forum-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.creator-pic {
+    margin-top: 25px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.forum-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.creator-name {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+}
+
+.forum-name {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.forum-badges {
+    display: flex;
+    gap: 1rem;
+    margin: 0.5rem 0;
 }

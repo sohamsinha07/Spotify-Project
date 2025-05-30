@@ -159,6 +159,25 @@
     flex-grow: 1;
 }
 
+.comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.comment-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    object-fit: cover;
+}
+
+.comment-username {
+    font-weight: bold;
+}
+
+
 
 .center-text {
     text-align: center;
