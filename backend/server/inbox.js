@@ -10,7 +10,7 @@ const router = express.Router();
 
 
 // Add or ensure user exists
-router.post('/add-user', async (req, res) => {
+/* router.post('/add-user', async (req, res) => {
   const { userId } = req.body;
   try {
     const userRef = db.collection('users').doc(userId);
@@ -23,7 +23,26 @@ router.post('/add-user', async (req, res) => {
     console.error(err);
     res.status(500).send('Failed to add user');
   }
+}); */
+
+// Only allow adding users that already exist
+router.post('/add-user', async (req, res) => {
+  const { userId } = req.body;
+  try {
+    const userRef = db.collection('users').doc(userId);
+    const docSnap = await userRef.get();
+
+    if (!docSnap.exists) {
+      return res.status(404).send('User does not exist');
+    }
+
+    res.status(200).send('User is valid');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Failed to validate user');
+  }
 });
+
 
 // Get or create chat
 router.post('/get-or-create-chat', async (req, res) => {
@@ -113,7 +132,10 @@ router.delete("/delete-chat", async (req, res) => {
 
   try {
     const participants = [user1, user2].sort();
-    const snapshot = await db.collection("chat").where("participants", "==", participants).get();
+    const snapshot = await db
+      .collection("chat")
+      .where("participants", "==", participants)
+      .get();
 
     if (!snapshot.empty) {
       const chatId = snapshot.docs[0].id;
@@ -122,11 +144,18 @@ router.delete("/delete-chat", async (req, res) => {
     } else {
       res.status(404).send("Chat not found");
     }
+
+    // ✅ DO NOT delete users here
   } catch (err) {
     console.error("Failed to delete chat", err);
     res.status(500).send("Failed to delete chat");
   }
 });
+
+
+
+
+
 
 
 module.exports = router;
