@@ -107,7 +107,7 @@ This project is a Spotify-integrated web application developed as part of a summ
   - [My Nguyen](https://github.com/myngpog)  
   - [Soham Sinha](https://github.com/sohamsinha07)  
   - [Nick Nguyen](https://github.com/Nickn2137)  
-  - [Oakley](https://github.com/Okailey)  
+  - [Danielle](https://github.com/Okailey)  
   - [Henok Foslyk](https://github.com/Henok-foslyk)
   
 - Forge & Spotify Mentors
